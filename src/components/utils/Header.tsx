@@ -25,8 +25,12 @@ const Header: React.FC = () => {
                 <Link to="/">VIP</Link>
                 <Link to="/">ABOUT</Link>
                 <Link to="/">CONTACT</Link>
-                <Button>LOGIN</Button>
-                <Button>SIGN UP</Button>
+                <Button>
+                  <Link to="/">LOGIN</Link>
+                </Button>
+                <Button>
+                  <Link to="/">SIGN UP</Link>
+                </Button>
               </div>
             </div>
           </header>
