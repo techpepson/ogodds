@@ -2,6 +2,8 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { Avatar, Button, DropdownMenu, Table, Theme } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Header from "./utils/Header";
+import { images } from "../assets/assets";
 
 const Home: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -14,6 +16,7 @@ const Home: React.FC = () => {
 
       <Theme>
         <div className={`container`}>
+          <Header />
           {/*container for the upper content of the home page.*/}
           <div className={``}>
             {/*container for the texts in the upper home page section*/}
@@ -40,7 +43,14 @@ const Home: React.FC = () => {
           <div>
             <p>POPULAR LEAGUES</p>
             {/*scrolling images*/}
-            <div></div>
+            <div>
+              {images.map((img, index) => (
+                <div>
+                  <img src={img.src} alt={img.describe} key={index} />
+                  <p>{img.describe}</p>
+                </div>
+              ))}
+            </div>
           </div>
           {/*bottom section of the home page*/}
 
