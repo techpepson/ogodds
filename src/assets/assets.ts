@@ -10,6 +10,7 @@ import vini from "./vini.png";
 import money from "./money.png";
 import phone from "./phone-logo.png";
 import google from "./google.avif";
+import telegram from "./telegram.gif";
 
 export {
   bundesliga,
@@ -24,6 +25,7 @@ export {
   money,
   phone,
   google,
+  telegram,
 };
 
 export const images = [

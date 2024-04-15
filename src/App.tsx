@@ -7,6 +7,7 @@ import Premium from "./components/Premium";
 import Contact from "./components/Contact";
 import AdminLogin from "./components/auth/AdminLogin";
 import AdminEdit from "./components/auth/AdminEdit";
+import Header from "./components/utils/Header";
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/adminlog" element={<AdminLogin />} />
         <Route path="/adminedit" element={<AdminEdit />} />
+        <Route path="/header" element={<Header />} />
       </Routes>
     </>
   );

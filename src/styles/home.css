@@ -1,0 +1,18 @@
+.bg-image {
+  background-image: url("../assets//pitch.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.player-bg {
+  background-image: url("../assets/neymar.png"), url("../assets//messi.png"),
+    url("../assets//halland.png");
+  background-position:  center, right, left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 700px;
+  height: 400px;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 0;
+}

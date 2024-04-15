@@ -1,10 +1,12 @@
 import { Button, Flex, Radio, Text, TextField } from "@radix-ui/themes";
 import React from "react";
+import Header from "../utils/Header";
 
 const AdminEdit: React.FC = () => {
   return (
     <>
       <div className={`container`}>
+        <div><Header/></div>
         <div>
           <form action="/" method="post">
             <label htmlFor="leagues" id="league">
