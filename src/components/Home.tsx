@@ -1,36 +1,73 @@
-import { Avatar, Button, DropdownMenu, Table, Theme } from "@radix-ui/themes";
+import { Avatar, Button, Table, Theme } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./utils/Header";
 import { images } from "../assets/assets";
 import "../styles/home.css";
 import { homeStyles } from "../styles/home-styles";
 import { telegram } from "../assets/assets";
+import TableRow from "./utils/tableRow";
+import wonbet from "../assets/wonbet.jpg";
+import whatiscashout from "../assets/whatiscashout.jpg";
+import pending from "../assets/pending.jpg"
+
 const Home: React.FC = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  // past slips
+  const pastSlip = {
+    slip_title: "PAST SLIPS",
+    odds: [
+      {
+        title: "UEFA Champions League",
+        teams: "Barcelona vs Bayern Munchen",
+        tips: "Home - Over 2.5",
+        result: "WON",
+      },
+      {
+        title: "UEFA Champions League",
+        teams: "Barcelona vs Bayern Munchen",
+        tips: "Home - Over 2.5",
+        result: "LOST",
+      },
+      {
+        title: "UEFA Champions League",
+        teams: "Barcelona vs Bayern Munchen",
+        tips: "Home - Over 2.5",
+        result: "PENDING",
+      },
+      {
+        title: "UEFA Champions League",
+        teams: "Barcelona vs Bayern Munchen",
+        tips: "Home - Over 2.5",
+        result: "WON",
+      },
+    ],
+    type: "FREE",
+    bookingCodes: {
+      sportybet: "BCSDSG1",
+      onexbet: "HJHJSD7",
+    },
+    status: "ACTIVE",
   };
   return (
     <>
       {/*home page section*/}
 
       <Theme>
-        <div className={`container ${homeStyles.defaultBg}`}>
-          <Header />
+        <div className={`max-w-7xl mx-auto ${homeStyles.defaultBg}`}>
           {/*container for the upper content of the home page.*/}
           <div
             className={`flex flex-col bg-image relative h-[700px] w-full top-98px ${homeStyles.whiteText}`}
           >
             {/*container for the texts in the upper home page section*/}
-            <div className={`relative top-[40%]`}>
+            <div className={`relative top-60 sm:top-[40%] p-2`}>
               {/*container used to rightly organize the bg image and the texts*/}
-              <div className="flex">
+              <div className="flex flex-col sm:flex-row">
                 {/*wrapper container for the ogodds welcome text and buttons*/}
                 <div>
                   <div className={`${homeStyles.textSize}`}>
                     <h1 className={`font-bold ${homeStyles.headingSize}`}>
-                      Welcome to OG ODDS,
+                      Welcome to OGSOO,
                     </h1>
                     <p
                       className={`${homeStyles.wrapText} ${homeStyles.textSize}`}
@@ -41,27 +78,34 @@ const Home: React.FC = () => {
                   </div>
                   {/*buttons on the upper section of the home page*/}
                   <div
-                    className={`flex gap-10 relative top-10 max-md:flex max-md:flex-col`}
+                    className={`flex gap-4 sm:gap-10 relative top-10 max-md:flex max-md:flex-col`}
                   >
                     <Button
                       radius="full"
                       color="cyan"
                       className={`${homeStyles.textSize}`}
                     >
-                      <Link to="/">JOIN VIP PAGE</Link>
+                      <Link to="/vip">JOIN VIP PAGE</Link>
                     </Button>
                     <Button
                       radius="full"
                       color="cyan"
                       className={`${homeStyles.textSize}`}
                     >
-                      {/* <Avatar src={telegram} fallback="TG" alt="Telegram logo" /> */}
-                      JOIN TELEGRAM CHANNEL
+                      <Link to="#">
+                        <Avatar
+                          src={telegram}
+                          fallback="TG"
+                          alt="Telegram logo"
+                          className="h-20 w-auto mr-1"
+                        />
+                        JOIN TELEGRAM CHANNEL
+                      </Link>
                     </Button>
                   </div>
                 </div>
                 {/*container for the background player images*/}
-                <div className="player-bg "></div>
+                <div className="hidden sm:block player-bg"></div>
               </div>
             </div>
           </div>
@@ -82,16 +126,18 @@ const Home: React.FC = () => {
               </span>
             </p>
             {/*scrolling images*/}
-            <div className={`${homeStyles.rawFlex}`}>
+            <div
+              className={`${homeStyles.rawFlex} flex-wrap justify-center gap-14 mb-4`}
+            >
               {images.map((img, index) => (
                 <div className="flex justify-center flex-col items-center">
                   <img
                     src={img.src}
                     alt={img.describe}
                     key={index}
-                    className={`rounded-full w-10 h-10`}
+                    className={`rounded-md w-20 h-20`}
                   />
-                  <p className={`max-w-[20ch] text-start text-sm`}>
+                  <p className={`max-w-[20ch] text-start text-md mt-2`}>
                     {img.describe}
                   </p>
                 </div>
@@ -102,213 +148,257 @@ const Home: React.FC = () => {
 
           <div>
             <p
-              className={`text-xl text-slate-500 mt-5 mb-4 justify-center flex`}
+              className={`text-xl text-slate-600 mt-5 mb-4 justify-center flex`}
             >
               FREE BETTING SLIPS (LIMITED)
             </p>
             <div
-              className={`flex justify-center items-center gap-10 align-middle`}
+              className={`flex flex-col sm:flex-row justify-center items-center p-2 gap-10 align-middle`}
             >
               {/*container for the table in the bottom*/}
-              <div className={`mt-5`}>
-                <div>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <div className={`flex`}>
-                        <p
-                          onClick={() => {
-                            toggleDropdown();
-                          }}
-                        >
-                          PAST SLIPS
-                        </p>
-                        {!isDropdownOpen ? (
-                          <DropdownMenu.TriggerIcon />
+              <div className={`mt-5 h-full`}>
+                <div className="w-full bg-slate-100 rounded-md mb-8">
+                  <div className={`flex`}>
+                    <p className="w-full rounded-t-md bg-red-400 flex items-center justify-between text-white p-2 text-xl font-semibold">
+                      {pastSlip.slip_title}
+
+                      <span className="flex items-center gap-2">
+                        <span>{pastSlip.status}</span>
+                        {pastSlip.status == "WON" ? (
+                          <img
+                            src={wonbet}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        ) : pastSlip.status == "LOST" ? (
+                          <img
+                            src={whatiscashout}
+                            className="w-10 h-auto rounded-lg"
+                          />
                         ) : (
-                          <DropdownMenu.Separator />
-                        )}
+                          <img
+                            src={pending}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        )}{" "}
+                      </span>
+                    </p>
+                  </div>
+                  <Table.Root>
+                    <Table.Header>
+                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
+                    </Table.Header>
+
+                    {/* dynamically getting table rows */}
+                    {pastSlip.odds.map((item) => {
+                      return (
+                        <TableRow
+                          title={item.title}
+                          teams={item.teams}
+                          tips={item.tips}
+                          result={item.result}
+                        />
+                      );
+                    })}
+                    <div className="flex justify-around p-2">
+                      <div className="flex gap-2 items-center">
+                        <p className="text-red-600 text-lg font-bold">
+                          SportyBet
+                        </p>
+                        <p className="bg-white rounded-md p-1 px-2 flex justify-between items-center font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.sportybet}
+                        </p>
                       </div>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
-                      <DropdownMenu.Item>
-                        <Table.Root>
-                          <Table.Header>
-                            <Table.ColumnHeaderCell>
-                              League
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Teams
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Tips
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Results
-                            </Table.ColumnHeaderCell>
-                          </Table.Header>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                        </Table.Root>
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
+                      <div className="flex gap-2 items-center">
+                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
+                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.onexbet}
+                        </p>
+                      </div>
+                    </div>
+                  </Table.Root>
+
+                  {/* booking codes */}
                 </div>
                 {/*Free hot odds dropdown*/}
-                <div>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <div className={`flex`}>
-                        <p
-                          onClick={() => {
-                            toggleDropdown();
-                          }}
-                        >
-                          PAST SLIPS
-                        </p>
-                        {!isDropdownOpen ? (
-                          <DropdownMenu.TriggerIcon />
+                <div className="w-full bg-slate-100 rounded-md mb-8">
+                  <div className={`flex `}>
+                    <p className="w-full rounded-t-md bg-red-400 flex justify-between items-center text-white p-2 text-xl font-semibold">
+                      {pastSlip.slip_title}
+
+                      <span className="flex items-center gap-2">
+                        <span>{pastSlip.status}</span>
+                        {pastSlip.status == "WON" ? (
+                          <img
+                            src={wonbet}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        ) : pastSlip.status == "LOST" ? (
+                          <img
+                            src={whatiscashout}
+                            className="w-10 h-auto rounded-lg"
+                          />
                         ) : (
-                          <DropdownMenu.Separator />
-                        )}
+                          <img
+                            src={pending}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        )}{" "}
+                      </span>
+                    </p>
+                  </div>
+                  <Table.Root className="h-full w-full">
+                    <Table.Header>
+                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
+                    </Table.Header>
+
+                    {/* dynamically getting table rows */}
+                    {pastSlip.odds.map((item) => {
+                      return (
+                        <TableRow
+                          title={item.title}
+                          teams={item.teams}
+                          tips={item.tips}
+                          result={item.result}
+                        />
+                      );
+                    })}
+                    <div className="flex justify-around p-2">
+                      <div className="flex gap-2 items-center">
+                        <p className="text-red-600 text-lg font-bold">
+                          SportyBet
+                        </p>
+                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.sportybet}
+                        </p>
                       </div>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
-                      <DropdownMenu.Item>
-                        <Table.Root className="h-full">
-                          <Table.Header>
-                            <Table.ColumnHeaderCell>
-                              League
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Teams
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Tips
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Results
-                            </Table.ColumnHeaderCell>
-                          </Table.Header>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                        </Table.Root>
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
+                      <div className="flex gap-2 items-center">
+                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
+                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.onexbet}
+                        </p>
+                      </div>
+                    </div>
+                  </Table.Root>
                 </div>
                 {/*Midnight odds dropdown*/}
-                <div>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <div className={`flex`}>
-                        <p
-                          onClick={() => {
-                            toggleDropdown();
-                          }}
-                        >
-                          PAST SLIPS
-                        </p>
-                        {!isDropdownOpen ? (
-                          <DropdownMenu.TriggerIcon />
+                <div className="w-full bg-slate-100 rounded-md mb-8">
+                  <div className={`flex`}>
+                    <p className="w-full rounded-t-md bg-red-400 flex justify-between items-center text-white p-2 text-xl font-semibold">
+                      {pastSlip.slip_title}
+
+                      <span className="flex items-center gap-2">
+                        <span>{pastSlip.status}</span>
+                        {pastSlip.status == "WON" ? (
+                          <img
+                            src={wonbet}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        ) : pastSlip.status == "LOST" ? (
+                          <img
+                            src={whatiscashout}
+                            className="w-10 h-auto rounded-lg"
+                          />
                         ) : (
-                          <DropdownMenu.Separator />
-                        )}
+                          <img
+                            src={pending}
+                            className="w-10 h-auto rounded-lg"
+                          />
+                        )}{" "}
+                      </span>
+                    </p>
+                  </div>
+                  <Table.Root className="h-full">
+                    <Table.Header>
+                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
+                    </Table.Header>
+
+                    {/* dynamically getting table rows */}
+                    {pastSlip.odds.map((item) => {
+                      return (
+                        <TableRow
+                          title={item.title}
+                          teams={item.teams}
+                          tips={item.tips}
+                          result={item.result}
+                        />
+                      );
+                    })}
+                    <div className="flex justify-around p-2">
+                      <div className="flex gap-2 items-center">
+                        <p className="text-red-600 text-lg font-bold">
+                          SportyBet
+                        </p>
+                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.sportybet}
+                        </p>
                       </div>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
-                      <DropdownMenu.Item>
-                        <Table.Root className="h-full">
-                          <Table.Header>
-                            <Table.ColumnHeaderCell>
-                              League
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Teams
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Tips
-                            </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>
-                              Results
-                            </Table.ColumnHeaderCell>
-                          </Table.Header>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                          <Table.Row>
-                            <Table.RowHeaderCell>
-                              International Friendlies
-                            </Table.RowHeaderCell>
-                            <Table.Cell>Denmark vs Switzerland</Table.Cell>
-                            <Table.Cell>Over 15 goals</Table.Cell>
-                            <Table.Cell>Empty</Table.Cell>
-                          </Table.Row>
-                        </Table.Root>
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
+                      <div className="flex gap-2 items-center">
+                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
+                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                          {pastSlip.bookingCodes.onexbet}
+                        </p>
+                      </div>
+                    </div>
+                  </Table.Root>
                 </div>
               </div>
-              {/*side data of the home page*/}
-              <div className={`flex flex-col gap-5`}>
-                <div
-                  className={`${homeStyles.rawFlex} gap-5 flex flex-col  justify-center items-center`}
-                >
-                  <p className={`max-w-[30ch] text-start`}>
-                    Are you ready to make money with our
-                    <span className={`text-red-500`}> authentic </span>
-                    odds? If you already have an account
-                  </p>
-                  <div className={`${homeStyles.headerBg} rounded-full`}>
-                    <Button>
-                      <Link to="/">Login</Link>
-                    </Button>
+              {/**
+              side data of the home page
+              * if user is logged in we display ads if not we display login and sign up buttons
+              */}
+              {isLoggedIn ? (
+                <>
+                  <div className="flex gap-1 sm:gap-10 flex-row sm:flex-col max-w-full">
+                    <img
+                      src={images[3].src}
+                      className=" w-1/2 sm:w-[400px] h-auto rounded-md"
+                    />
+                    <img
+                      src={images[4].src}
+                      className=" w-1/2 sm:w-[400px] h-auto rounded-md"
+                    />
                   </div>
-                </div>
-                <div
-                  className={`flex flex-col gap-5 justify-center items-center`}
-                >
-                  If you are a new user and don't have an account, create one
-                  <div className={`${homeStyles.headerBg} rounded-full`}>
-                    <Button>
-                      <Link to="/">Sign Up</Link>
-                    </Button>
+                </>
+              ) : (
+                <>
+                  <div className={`flex flex-col gap-5`}>
+                    <div
+                      className={`${homeStyles.rawFlex} gap-5 flex flex-col  justify-center items-center`}
+                    >
+                      <p className={`max-w-[30ch] text-start`}>
+                        Are you ready to make money with our
+                        <span className={`text-red-500`}> authentic </span>
+                        odds? If you already have an account
+                      </p>
+                      <div className={`${homeStyles.headerBg} rounded-full`}>
+                        <Button>
+                          <Link to="/login">Login</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div
+                      className={`flex flex-col gap-5 justify-center items-center`}
+                    >
+                      If you are a new user and don't have an account, create
+                      one
+                      <div className={`${homeStyles.headerBg} rounded-full`}>
+                        <Button>
+                          <Link to="/signup">Sign Up</Link>
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
