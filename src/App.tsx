@@ -8,18 +8,20 @@ import Contact from "./components/Contact";
 import AdminLogin from "./components/auth/AdminLogin";
 import AdminEdit from "./components/auth/AdminEdit";
 import Header from "./components/utils/Header";
+import Navbar from "./components/utils/Header";
 
 const App: React.FC = () => {
+  // check if user is logged in
   return (
     <>
+    <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/vip" element={<Premium />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/adminlog" element={<AdminLogin />} />
-        <Route path="/adminedit" element={<AdminEdit />} />
-        <Route path="/header" element={<Header />} />
+        <Route path="/admin" element={<AdminEdit />} />
       </Routes>
     </>
   );
