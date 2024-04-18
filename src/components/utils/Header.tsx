@@ -5,8 +5,8 @@ import { logo } from "../../assets/assets";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
-  const [isLoggedIn,setIsLoggedIn] = useState(true)
-  const [isAdmin,setIsAdmin] = useState(true)
+  const [isLoggedIn] = useState(true)
+  const [isAdmin] = useState(true)
   
 const user = {
   name: "Tom Cook",
@@ -28,7 +28,7 @@ const navigation = [
   },
 ];
 const userNavigation = [
-  isAdmin ? { name: "Admin dashboard", href: "/admin" } : null,
+  isAdmin ? { name: "Admin dashboard", href: "/admin" } : {name:"",href:""},
   { name: "Sign out", href: "#" }
 ];
 
