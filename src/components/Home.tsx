@@ -14,41 +14,79 @@ const Home: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // past slips
-  const pastSlip = {
-    slip_title: "PAST SLIPS",
-    odds: [
-      {
-        title: "UEFA Champions League",
-        teams: "Barcelona vs Bayern Munchen",
-        tips: "Home - Over 2.5",
-        result: "WON",
+  const Slips = [
+    {
+      slip_title: "PAST SLIPS",
+      odds: [
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "WON",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "LOST",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "PENDING",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "WON",
+        },
+      ],
+      type: "FREE",
+      bookingCodes: {
+        sportybet: "BCSDSG1",
+        onexbet: "HJHJSD7",
       },
-      {
-        title: "UEFA Champions League",
-        teams: "Barcelona vs Bayern Munchen",
-        tips: "Home - Over 2.5",
-        result: "LOST",
-      },
-      {
-        title: "UEFA Champions League",
-        teams: "Barcelona vs Bayern Munchen",
-        tips: "Home - Over 2.5",
-        result: "PENDING",
-      },
-      {
-        title: "UEFA Champions League",
-        teams: "Barcelona vs Bayern Munchen",
-        tips: "Home - Over 2.5",
-        result: "WON",
-      },
-    ],
-    type: "FREE",
-    bookingCodes: {
-      sportybet: "BCSDSG1",
-      onexbet: "HJHJSD7",
+      status: "ACTIVE",
     },
-    status: "ACTIVE",
-  };
+    {
+      slip_title: "PAST SLIPS",
+      odds: [
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "WON",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "LOST",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "PENDING",
+        },
+        {
+          title: "UEFA Champions League",
+          teams: "Barcelona vs Bayern Munchen",
+          tips: "Home - Over 2.5",
+          result: "WON",
+        },
+      ],
+      type: "FREE",
+      bookingCodes: {
+        sportybet: "BCSDSG1",
+        onexbet: "HJHJSD7",
+      },
+      status: "ACTIVE",
+    },
+  ];
+
   return (
     <>
       {/*home page section*/}
@@ -157,198 +195,91 @@ const Home: React.FC = () => {
             >
               {/*container for the table in the bottom*/}
               <div className={`mt-5 h-full`}>
-                <div className="w-full bg-slate-100 rounded-md mb-8">
-                  <div className={`flex`}>
-                    <p className="w-full rounded-t-md bg-red-400 flex items-center justify-between text-white p-2 text-xl font-semibold">
-                      {pastSlip.slip_title}
+                {/*container for the table */}
+                <div className="flex flex-col">
+                  {Slips.map((slip) => {
+                    return (
+                      <>
+                        <div className={`mt-5 h-full`}>
+                          <div className="w-full bg-slate-100 rounded-md mb-8">
+                            <div className={`flex`}>
+                              <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text-xl font-semibold">
+                                {slip.slip_title}
 
-                      <span className="flex items-center gap-2">
-                        <span>{pastSlip.status}</span>
-                        {pastSlip.status == "WON" ? (
-                          <img
-                            src={wonbet}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : pastSlip.status == "LOST" ? (
-                          <img
-                            src={whatiscashout}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : (
-                          <img
-                            src={pending}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        )}{" "}
-                      </span>
-                    </p>
-                  </div>
-                  <Table.Root>
-                    <Table.Header>
-                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
-                    </Table.Header>
+                                <span className="flex items-center gap-2">
+                                  <span>{slip.status}</span>
+                                  {slip.status == "WON" ? (
+                                    <img
+                                      src={wonbet}
+                                      className="w-10 h-auto rounded-lg"
+                                    />
+                                  ) : slip.status == "LOST" ? (
+                                    <img
+                                      src={whatiscashout}
+                                      className="w-10 h-auto rounded-lg"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={pending}
+                                      className="w-10 h-auto rounded-lg"
+                                    />
+                                  )}{" "}
+                                </span>
+                              </p>
+                            </div>
+                            <Table.Root>
+                              <Table.Header>
+                                <Table.ColumnHeaderCell>
+                                  League
+                                </Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell>
+                                  Teams
+                                </Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell>
+                                  Tips
+                                </Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell>
+                                  Results
+                                </Table.ColumnHeaderCell>
+                              </Table.Header>
 
-                    {/* dynamically getting table rows */}
-                    {pastSlip.odds.map((item) => {
-                      return (
-                        <TableRow
-                          title={item.title}
-                          teams={item.teams}
-                          tips={item.tips}
-                          result={item.result}
-                        />
-                      );
-                    })}
-                    <div className="flex justify-around p-2">
-                      <div className="flex gap-2 items-center">
-                        <p className="text-red-600 text-lg font-bold">
-                          SportyBet
-                        </p>
-                        <p className="bg-white rounded-md p-1 px-2 flex justify-between items-center font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.sportybet}
-                        </p>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
-                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.onexbet}
-                        </p>
-                      </div>
-                    </div>
-                  </Table.Root>
+                              {/* dynamically getting table rows */}
+                              {slip.odds.map((item) => {
+                                return (
+                                  <TableRow
+                                    title={item.title}
+                                    teams={item.teams}
+                                    tips={item.tips}
+                                    result={item.result}
+                                  />
+                                );
+                              })}
+                            </Table.Root>
 
-                  {/* booking codes */}
-                </div>
-                {/*Free hot odds dropdown*/}
-                <div className="w-full bg-slate-100 rounded-md mb-8">
-                  <div className={`flex `}>
-                    <p className="w-full rounded-t-md bg-red-400 flex justify-between items-center text-white p-2 text-xl font-semibold">
-                      {pastSlip.slip_title}
-
-                      <span className="flex items-center gap-2">
-                        <span>{pastSlip.status}</span>
-                        {pastSlip.status == "WON" ? (
-                          <img
-                            src={wonbet}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : pastSlip.status == "LOST" ? (
-                          <img
-                            src={whatiscashout}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : (
-                          <img
-                            src={pending}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        )}{" "}
-                      </span>
-                    </p>
-                  </div>
-                  <Table.Root className="h-full w-full">
-                    <Table.Header>
-                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
-                    </Table.Header>
-
-                    {/* dynamically getting table rows */}
-                    {pastSlip.odds.map((item) => {
-                      return (
-                        <TableRow
-                          title={item.title}
-                          teams={item.teams}
-                          tips={item.tips}
-                          result={item.result}
-                        />
-                      );
-                    })}
-                    <div className="flex justify-around p-2">
-                      <div className="flex gap-2 items-center">
-                        <p className="text-red-600 text-lg font-bold">
-                          SportyBet
-                        </p>
-                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.sportybet}
-                        </p>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
-                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.onexbet}
-                        </p>
-                      </div>
-                    </div>
-                  </Table.Root>
-                </div>
-                {/*Midnight odds dropdown*/}
-                <div className="w-full bg-slate-100 rounded-md mb-8">
-                  <div className={`flex`}>
-                    <p className="w-full rounded-t-md bg-red-400 flex justify-between items-center text-white p-2 text-xl font-semibold">
-                      {pastSlip.slip_title}
-
-                      <span className="flex items-center gap-2">
-                        <span>{pastSlip.status}</span>
-                        {pastSlip.status == "WON" ? (
-                          <img
-                            src={wonbet}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : pastSlip.status == "LOST" ? (
-                          <img
-                            src={whatiscashout}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        ) : (
-                          <img
-                            src={pending}
-                            className="w-10 h-auto rounded-lg"
-                          />
-                        )}{" "}
-                      </span>
-                    </p>
-                  </div>
-                  <Table.Root className="h-full">
-                    <Table.Header>
-                      <Table.ColumnHeaderCell>League</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Teams</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Tips</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Results</Table.ColumnHeaderCell>
-                    </Table.Header>
-
-                    {/* dynamically getting table rows */}
-                    {pastSlip.odds.map((item) => {
-                      return (
-                        <TableRow
-                          title={item.title}
-                          teams={item.teams}
-                          tips={item.tips}
-                          result={item.result}
-                        />
-                      );
-                    })}
-                    <div className="flex justify-around p-2">
-                      <div className="flex gap-2 items-center">
-                        <p className="text-red-600 text-lg font-bold">
-                          SportyBet
-                        </p>
-                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.sportybet}
-                        </p>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <p className="text-blue-600 text-lg font-bold">1XBet</p>
-                        <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                          {pastSlip.bookingCodes.onexbet}
-                        </p>
-                      </div>
-                    </div>
-                  </Table.Root>
+                            {/* booking codes */}
+                            <div className="flex sm:flex-row flex-col items-center gap-1 justify-around p-2">
+                              <div className="flex gap-2 items-center">
+                                <p className="text-red-600 text-lg font-bold">
+                                  SportyBet
+                                </p>
+                                <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                                  {slip.bookingCodes.sportybet}
+                                </p>
+                              </div>
+                              <div className="flex gap-2 items-center">
+                                <p className="text-blue-600 text-lg font-bold">
+                                  1XBet
+                                </p>
+                                <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
+                                  {slip.bookingCodes.onexbet}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
               {/**

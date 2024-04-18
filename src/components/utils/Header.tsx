@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [isLoggedIn,setIsLoggedIn] = useState(true)
+  const [isAdmin,setIsAdmin] = useState(true)
   
 const user = {
   name: "Tom Cook",
@@ -26,7 +27,7 @@ const navigation = [
     current: path == "/contact" ? true : false,
   },
 ];
-const userNavigation = [{ name: "Sign out", href: "#" }];
+const userNavigation = [{ name: "Sign out", href: "#" }, isAdmin ? {name: "Admin dashboard", href:"/admin"} : null];
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");

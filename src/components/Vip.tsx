@@ -1,4 +1,4 @@
-import { Button, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 import TableRow from "./utils/tableRow";
 import { images } from "../assets/assets";
 import wonbet from "../assets/wonbet.jpg";
@@ -86,7 +86,7 @@ export default function Vip() {
           className={`text-2xl text-red-400 shadow-sm mt-5 mb-4 font-semibold justify-center flex`}
         ></p>
         <div
-          className={`flex flex-col sm:flex-row justify-center items-center p-2 gap-10 align-middle`}
+          className={`flex flex-col sm:flex-row justify-center items-center m-10 sm:m-2 p-2 gap-10 align-middle`}
         >
           {/*container for the table */}
           <div className="flex flex-col">
