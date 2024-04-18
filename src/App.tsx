@@ -8,7 +8,6 @@ import Contact from "./components/Contact";
 import AdminLogin from "./components/auth/AdminLogin";
 import AdminEdit from "./components/auth/AdminEdit";
 import AdminPage from "./components/auth/AdminPage";
-import Header from "./components/utils/Header";
 import Navbar from "./components/utils/Header";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";

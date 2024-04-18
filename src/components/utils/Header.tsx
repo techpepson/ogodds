@@ -27,7 +27,10 @@ const navigation = [
     current: path == "/contact" ? true : false,
   },
 ];
-const userNavigation = [{ name: "Sign out", href: "#" }, isAdmin ? {name: "Admin dashboard", href:"/admin"} : null];
+const userNavigation = [
+  isAdmin ? { name: "Admin dashboard", href: "/admin" } : null,
+  { name: "Sign out", href: "#" }
+];
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");

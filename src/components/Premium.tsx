@@ -1,6 +1,6 @@
 import React from "react";
 import { money } from "../assets/assets";
-import { Button, Card } from "@radix-ui/themes";
+import { Button} from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 import Vip from "./Vip";
 

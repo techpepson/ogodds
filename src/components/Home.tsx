@@ -11,7 +11,7 @@ import whatiscashout from "../assets/whatiscashout.jpg";
 import pending from "../assets/pending.jpg"
 
 const Home: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn] = useState(true);
 
   // past slips
   const Slips = [
