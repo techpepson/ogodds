@@ -13,11 +13,11 @@ export default function AdminEdit() {
     { id: "vip", title: "Vip" },
   ];
   // bet status
-  const status = [
-    { id: "active", title: "Active" },
-    { id: "won", title: "Won" },
-    { id: "lost", title: "Lost" },
-  ];
+  // const status = [
+  //   { id: "active", title: "Active" },
+  //   { id: "won", title: "Won" },
+  //   { id: "lost", title: "Lost" },
+  // ];
   return (
     <div className="max-w-7xl py-8 mx-auto flex flex-col sm:flex-row w-full p-1 sm:p-4 gap-4 sm:gap-8 items-center">
       <div className="flex flex-col gap-2 p-2">
