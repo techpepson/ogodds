@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Home from "./components/Home";
 import "@radix-ui/themes/styles.css";
 import About from "./components/About";
@@ -18,7 +18,7 @@ const App: React.FC = () => {
   return (
     <>
       <Navbar />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <Route path="/signin" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
       <Footer />
     </>
   );
