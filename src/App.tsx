@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./components/Home";
 import "@radix-ui/themes/styles.css";
 import About from "./components/About";
@@ -17,18 +17,20 @@ const App: React.FC = () => {
   // check if user is logged in
   return (
     <>
-    <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/vip" element={<Premium />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/adminlog" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/adminEdit" element={<AdminEdit />} />
-        <Route path="/signin" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <Navbar />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/vip" element={<Premium />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/adminlog" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/adminEdit" element={<AdminEdit />} />
+          <Route path="/signin" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
       <Footer />
     </>
   );

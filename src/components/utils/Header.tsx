@@ -64,7 +64,7 @@ function classNames(...classes: any) {
                   />
                   <p
                     className={classNames(
-                      "hidden sm:block text-white ml-2 text-xl font-semibold"
+                      "block text-white ml-2 text-lg sm:text-xl font-semibold"
                     )}
                   >
                     OGSOO
