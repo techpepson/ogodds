@@ -4,7 +4,7 @@ import won from "../../assets/won.jpg"
 export default function TableRow({title,teams,tips,result}:any) {
   return (
     <>
-      <Table.Row className="shadow-md">
+      <Table.Row className="shadow-sm">
         <Table.RowHeaderCell>{title}</Table.RowHeaderCell>
         <Table.Cell>{teams}</Table.Cell>
         <Table.Cell>{tips}</Table.Cell>

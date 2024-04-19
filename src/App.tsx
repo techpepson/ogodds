@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Home from "./components/Home";
 import "@radix-ui/themes/styles.css";
 import About from "./components/About";
@@ -16,7 +16,7 @@ import Footer from "./components/utils/Footer";
 const App: React.FC = () => {
   // check if user is logged in
   return (
-    <>
+    <React.StrictMode>
       <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
         </Routes>
       <Footer />
-    </>
+    </React.StrictMode>
   );
 };
 

@@ -165,7 +165,7 @@ const Home: React.FC = () => {
             </p>
             {/*scrolling images*/}
             <div
-              className={`${homeStyles.rawFlex} flex-wrap justify-center gap-14 mb-4`}
+              className={`${homeStyles.rawFlex} flex-wrap justify-center space-x-2 sm:space-x-8 m-2 w-full mb-4`}
             >
               {images.map((img, index) => (
                 <div className="flex justify-center flex-col items-center">
@@ -173,9 +173,9 @@ const Home: React.FC = () => {
                     src={img.src}
                     alt={img.describe}
                     key={index}
-                    className={`rounded-md w-20 h-20`}
+                    className={`rounded-md w-10 h-10 sm:w-20 sm:h-20`}
                   />
-                  <p className={`max-w-[20ch] text-start text-md mt-2`}>
+                  <p className={`max-w-[20ch] text-start sm:text-base font-medium text-gray-900/80 mt-2`}>
                     {img.describe}
                   </p>
                 </div>
@@ -186,7 +186,7 @@ const Home: React.FC = () => {
 
           <div>
             <p
-              className={`text-xl text-slate-600 mt-5 mb-4 justify-center flex`}
+              className={`text-lg font-medium text-gray-600 mt-5 mb-4 justify-center flex`}
             >
               FREE BETTING SLIPS (LIMITED)
             </p>
