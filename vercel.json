@@ -2,6 +2,13 @@
   "version": 2,
   "routes": [
     {
+      "src": "/(.+\\.(js|ts|tsx))",
+      "headers": {
+        "Content-Type": "application/javascript"
+      },
+      "dest": "/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
