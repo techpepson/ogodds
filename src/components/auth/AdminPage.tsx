@@ -175,7 +175,7 @@ const AdminPage: React.FC = () => {
               return (
                 <>
                   <div className={`mt-5 h-full`}>
-                    <div className="w-full bg-slate-100 rounded-md mb-8">
+                    <div className="w-full bg-slate-50 rounded-md mb-8">
                       <div className={`flex`}>
                         <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text:lg sm:text-xl font-semibold">
                           {slip.slip_title}

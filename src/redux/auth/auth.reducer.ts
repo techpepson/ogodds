@@ -24,6 +24,27 @@ export const RegisterUser = createAsyncThunk(
     }
   }
 );
+// login user
+export const LoginUser = createAsyncThunk(
+  "login",
+  async (data: any, thunkAPI) => {
+    console.log(data)
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${url}/auth/login`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data,
+      });
+
+      return res.data
+    } catch (e) {
+      return thunkAPI.rejectWithValue({ error: e });
+    }
+  }
+);
 
 // create session
 export const CreateSession = createAsyncThunk(
@@ -41,7 +62,7 @@ export const CreateSession = createAsyncThunk(
         },
       });
       
-      console.log("session",res.data)
+      localStorage.setItem("token",JSON.stringify(res.data.token))
       return res.data
     } catch (e) {
       return thunkAPI.rejectWithValue({ error: e });
@@ -52,21 +73,25 @@ export const CreateSession = createAsyncThunk(
 
 // user
 export const GetUser = createAsyncThunk(
-  "user",
-  async (_: any, thunkAPI) => {
+  'user',
+  async (token: string, thunkAPI) => {
     try {
-      const res = await axios({
-        method: "get",
+      const _token = token.replace(/^"(.*)"$/,`$1`)
+      const response = await axios({
+        method: 'get',
         url: `${url}/auth/me`,
         headers: {
-          "Content-Type": "application/json",
-        }
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${_token}`,
+        },
       });
 
-      return res.data
-    } catch (e) {
-      return thunkAPI.rejectWithValue({ error: e });
+      console.log('User data:', response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error });
     }
   }
+
 
 );

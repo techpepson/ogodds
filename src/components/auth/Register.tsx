@@ -10,7 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  // clear token before 
+  localStorage.removeItem("token");
+
 const navigate = useNavigate();
+
 const toastOptions:any = {
   position: "top-right",
   autoClose: 3000,

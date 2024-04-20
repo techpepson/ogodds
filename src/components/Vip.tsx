@@ -6,6 +6,7 @@ import whatiscashout from "../assets/whatiscashout.png";
 import pending from "../assets/pending.jpg";
 
 export default function Vip() {
+
   // past slips
   const vipSlips = [
     {
@@ -94,7 +95,7 @@ export default function Vip() {
               return (
                 <>
                   <div className={`mt-5 h-full`}>
-                    <div className="w-full bg-slate-100 rounded-md mb-8">
+                    <div className="w-full bg-slate-50 rounded-md mb-8">
                       <div className={`flex`}>
                         <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text-xl font-semibold">
                           {vipSlip.slip_title}

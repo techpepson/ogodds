@@ -1,7 +1,6 @@
 import { Avatar, Button, Table, Theme } from "@radix-ui/themes";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { images } from "../assets/assets";
 import "../styles/home.css";
 import { homeStyles } from "../styles/home-styles";
@@ -10,34 +9,14 @@ import TableRow from "./utils/tableRow";
 import wonbet from "../assets/wonbet.jpg";
 import whatiscashout from "../assets/whatiscashout.jpg";
 import pending from "../assets/pending.jpg"
-import { GetUser } from "../redux/auth/auth.reducer";
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { RootState } from "../redux/store"; 
 
 const Home: React.FC = () => {
 
-   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-   const { error, loading, success,data }:any = useSelector(
+   const { data }:any = useSelector(
      (state: RootState) => state.auth
    );
-
-   console.log(error,loading,success,data)
-   //  creating user session
-   const navigate = useNavigate()
-   let user:any
-   useEffect(() => {
-     const fetchData = async () => {
-       try {
-         user = await dispatch(GetUser);
-         
-       } catch (e) {
-         console.log(e);
-         throw new Error("error creating session");
-       }
-     };
-
-     fetchData();
-   }, [dispatch, data, error, navigate]);
 
 
   // past slips
@@ -227,7 +206,7 @@ const Home: React.FC = () => {
                     return (
                       <>
                         <div key={index} className={`mt-5 h-full`}>
-                          <div className="w-full bg-slate-100 rounded-md mb-8">
+                          <div className="w-full bg-slate-50 rounded-md mb-8">
                             <div className={`flex`}>
                               <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text-xl font-semibold">
                                 {slip.slip_title}
@@ -313,7 +292,7 @@ const Home: React.FC = () => {
               side data of the home page
               * if user is logged in we display ads if not we display login and sign up buttons
               */}
-              {user ? (
+              {(data && data._id) ? (
                 <>
                   <div className="flex gap-1 sm:gap-10 flex-row sm:flex-col max-w-full">
                     <img

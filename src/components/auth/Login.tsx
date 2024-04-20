@@ -1,30 +1,77 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png"
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { reset } from "../../redux/auth/auth.slice";
+import { toast, ToastContainer } from "react-toastify";
+import { CreateSession, LoginUser } from "../../redux/auth/auth.reducer";
+import { useNavigate } from "react-router-dom";
+
+
 export default function Login() {
-    const [formData,setFormData] = useState({
-        email:"",
-        password:""
-    })
+const navigate = useNavigate();
 
-    const handleOnchange = (e:any) => {
-        const {name,value} = e.target
-        setFormData((prev) => ({
-            ...prev,
-            [name]:value
-        }))
-    }
+  const toastOptions: any = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  };
 
-    const submitData = (e:any) => {
-        e.preventDefault()
-        console.log(formData)
-        setFormData({
-            email:"",
-            password:""
-        })
+
+  // clear token before signing new one
+  localStorage.removeItem("token");
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleOnchange = (e: any) => {
+    dispatch(reset());
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const { error, loading, success,data}: any = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Error signing in.", toastOptions);
+    } else if (success) {
+      toast.success("Signed in successfully", toastOptions);
+      !error && navigate("/"); // navigate to home page
     }
+  }, [error, loading, success, navigate]);
+
+  //submit data
+  const submitData = async(e: any) => {
+    e.preventDefault();
+    await dispatch(LoginUser(formData))
+    setFormData({
+      email: "",
+      password: "",
+    });
+    
+  };
+  
+  console.log(data);
+  success && dispatch(CreateSession(data));
+
   return (
     <>
-
       <div className="flex min-h-full flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-sm space-y-10">
           <div>
@@ -103,7 +150,7 @@ export default function Login() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                {loading ? "Please wait..." : "Sign in"}
               </button>
             </div>
           </form>
@@ -118,6 +165,19 @@ export default function Login() {
             </a>
           </p>
         </div>
+        {/* react toastify */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

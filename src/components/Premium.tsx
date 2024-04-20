@@ -3,10 +3,15 @@ import { money } from "../assets/assets";
 import { Button} from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 import Vip from "./Vip";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store"; 
 
 const Premium: React.FC = () => {
   // checks if user is a vip member
-  const isVip = true
+     const { data }: any = useSelector((state: RootState) => state.auth);
+
+  let isVip = data.isVip ? true : false
+
   return (
     <>
       <div className={`max-w-7xl mx-auto `}>
