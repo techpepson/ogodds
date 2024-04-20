@@ -12,15 +12,17 @@ const AdminEdit = () => {
     sportybet: "",
     onexbet: "",
   });
-  const [odds, setOdds] = useState([
+  const [odds, setOdds] = useState(
     { league: "", teams: "", tips: "", result: "" },
-  ]);
+  );
+
   const [formData, setFormData] = useState({
     slip_title: "",
     type: "",
     status: "",
   });
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<JSX.Element[]>([]);
+  const [recordIndex, setRecordIndex] = useState(0);
 
   const type = [
     { id: "free", title: "FREE" },
@@ -34,36 +36,43 @@ const AdminEdit = () => {
     { id: "lost", title: "LOST" },
   ];
 
+  // sets other files - radio fields
   const handleOnchange = (e:any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     console.log(formData)
   };
   
+  // set booking codes
   const handleBookingCodes = (e:any) => {
     const { name, value } = e.target;
     setBookingCodes((prev) => ({ ...prev, [name]: value }));
     console.log(bookingCodes)
   };
 
-  const handleOdds = (index:any, e:any) => {
-    const { name, value } = e.target;
-    const newOdds = [...odds];
-    newOdds[index][name] = value;
-    setOdds(newOdds);
-    console.log(odds)
-  };
+// sets odds data
+const handleOddsOnchange = (e:any) => {
+  const {name,value} = e.target
 
-  const addNewRecord = () => {
-    setRecords([
-      ...records,
-      <OddsRecord
-        isNew={query ? false : true}
-        handleOnchange={(e: any) => handleOdds(records.length, e)}
-      />,
-    ]);
-  };
+  setOdds((prev) => ({
+    ...prev,
+    [name]:value
+  }))
 
+  console.log(odds)
+}
+
+// adds a new record field
+const addNewRecord = () => {
+  setRecords([
+    ...records,
+    <OddsRecord
+      key={recordIndex}
+      isNew={query ? false : true}
+      handleOnchange={handleOddsOnchange}
+    />,
+  ]);
+};
   return (
     <div className="max-w-7xl px-4 py-8 mx-auto flex flex-col sm:flex-row w-full p-1 sm:p-4 gap-4 sm:gap-8 my-8">
       <div className="flex flex-col gap-2 p-2">
@@ -91,7 +100,7 @@ const AdminEdit = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 space-y-8 w-full">
           <label
             htmlFor="odds"
             className="flex items-center w-full justify-between text-sm font-medium leading-6 text-gray-900"

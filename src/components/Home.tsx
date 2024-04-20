@@ -1,6 +1,7 @@
 import { Avatar, Button, Table, Theme } from "@radix-ui/themes";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { images } from "../assets/assets";
 import "../styles/home.css";
 import { homeStyles } from "../styles/home-styles";
@@ -9,9 +10,35 @@ import TableRow from "./utils/tableRow";
 import wonbet from "../assets/wonbet.jpg";
 import whatiscashout from "../assets/whatiscashout.jpg";
 import pending from "../assets/pending.jpg"
+import { GetUser } from "../redux/auth/auth.reducer";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../redux/store"; 
 
 const Home: React.FC = () => {
-  const [isLoggedIn] = useState(true);
+
+   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+   const { error, loading, success,data }:any = useSelector(
+     (state: RootState) => state.auth
+   );
+
+   console.log(error,loading,success,data)
+   //  creating user session
+   const navigate = useNavigate()
+   let user:any
+   useEffect(() => {
+     const fetchData = async () => {
+       try {
+         user = await dispatch(GetUser);
+         
+       } catch (e) {
+         console.log(e);
+         throw new Error("error creating session");
+       }
+     };
+
+     fetchData();
+   }, [dispatch, data, error, navigate]);
+
 
   // past slips
   const Slips = [
@@ -168,11 +195,10 @@ const Home: React.FC = () => {
               className={`${homeStyles.rawFlex} flex-wrap justify-center space-x-2 sm:space-x-8 m-2 w-full mb-4`}
             >
               {images.map((img, index) => (
-                <div className="flex justify-center flex-col items-center">
+                <div key={index} className="flex justify-center flex-col items-center">
                   <img
                     src={img.src}
                     alt={img.describe}
-                    key={index}
                     className={`rounded-md w-10 h-10 sm:w-20 sm:h-20`}
                   />
                   <p className={`max-w-[20ch] text-start sm:text-base font-medium text-gray-900/80 mt-2`}>
@@ -197,10 +223,10 @@ const Home: React.FC = () => {
               <div className={`mt-5 h-full`}>
                 {/*container for the table */}
                 <div className="flex flex-col">
-                  {Slips.map((slip) => {
+                  {Slips.map((slip,index) => {
                     return (
                       <>
-                        <div className={`mt-5 h-full`}>
+                        <div key={index} className={`mt-5 h-full`}>
                           <div className="w-full bg-slate-100 rounded-md mb-8">
                             <div className={`flex`}>
                               <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text-xl font-semibold">
@@ -247,6 +273,7 @@ const Home: React.FC = () => {
                               {slip.odds.map((item) => {
                                 return (
                                   <TableRow
+                                    key={item.title}
                                     title={item.title}
                                     teams={item.teams}
                                     tips={item.tips}
@@ -286,7 +313,7 @@ const Home: React.FC = () => {
               side data of the home page
               * if user is logged in we display ads if not we display login and sign up buttons
               */}
-              {isLoggedIn ? (
+              {user ? (
                 <>
                   <div className="flex gap-1 sm:gap-10 flex-row sm:flex-col max-w-full">
                     <img
@@ -338,4 +365,5 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+
+export default Home 
