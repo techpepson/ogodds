@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useLocation } from "react-router-dom";
 import OddsRecord from "../utils/oddsRecord";
@@ -22,7 +22,7 @@ const AdminEdit = () => {
     status: "",
   });
   const [records, setRecords] = useState<JSX.Element[]>([]);
-  const [recordIndex, setRecordIndex] = useState(0);
+  const [recordIndex] = useState(0);
 
   const type = [
     { id: "free", title: "FREE" },
