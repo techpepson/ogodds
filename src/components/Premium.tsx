@@ -46,8 +46,8 @@ const Premium: React.FC = () => {
  },[reference])
 
  // check if user is a vip member
- const isVip = user.isVip ? true : false
-  return (
+ const isVip = user.vip
+  return ( 
     <>
       <div className={`max-w-7xl mx-auto `}>
         {isVip ? (
