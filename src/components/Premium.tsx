@@ -7,6 +7,7 @@ import { RootState } from "../redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
 import { ToastContainer } from "react-toastify";
+import { reset } from "../redux/payment/payment.slice";
 
 const Premium: React.FC = () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
@@ -31,6 +32,7 @@ const Premium: React.FC = () => {
    await dispatch(InitializePayment(user));
  };
  success ? (window.location.href = url) : null; // navigate to payment checkout page
+ dispatch(reset())
 
  // Extract the reference from the URL
  const _reference = new URLSearchParams(window.location.href);
