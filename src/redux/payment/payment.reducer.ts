@@ -38,7 +38,7 @@ export const InitializePayment = createAsyncThunk(
 
 export const VerifyPayment = createAsyncThunk(
   "payment/verify",
-  async (reference: any, thunkApi) => {
+  async (reference: string, thunkApi) => {
     try{
         const res = await axios({
       method: "post",

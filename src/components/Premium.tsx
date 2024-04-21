@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { money } from "../assets/assets";
 import { Button } from "@radix-ui/themes";
 import Vip from "./Vip";
@@ -8,7 +8,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
 import { ToastContainer, toast } from "react-toastify";
 
-const Premium: React.FC = () => {
+const Premium = async () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
  const { data: user }:any = useSelector((state: RootState) => state.auth);
  const { loading, success, error, url } = useSelector(
@@ -35,9 +35,9 @@ const Premium: React.FC = () => {
  // Extract the reference from the URL
  const _reference = new URLSearchParams(window.location.href);
  const reference = _reference.get("reference");
- console.log(reference);
+
      // Dispatch verification action
-     reference && dispatch(VerifyPayment(reference));
+     reference && await dispatch(VerifyPayment(reference));
 
 
 
@@ -45,8 +45,10 @@ const Premium: React.FC = () => {
  useEffect(() => {
    if (error) {
      toast.error("Error making payment. Check user details", toastOptions);
+    }else if(success){
+     toast.success("Successfully registered as a VIP member for 24hours", toastOptions);
    }
- }, [error]);
+ }, [error,success]);
 
 
  // check if user is a vip member
