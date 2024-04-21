@@ -8,7 +8,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
 import { ToastContainer, toast } from "react-toastify";
 
-const Premium = async () => {
+const Premium: React.FC = () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
  const { data: user }:any = useSelector((state: RootState) => state.auth);
  const { loading, success, error, url } = useSelector(
@@ -37,7 +37,7 @@ const Premium = async () => {
  const reference = _reference.get("reference");
 
      // Dispatch verification action
-     reference && await dispatch(VerifyPayment(reference));
+     reference && dispatch(VerifyPayment(reference));
 
 
 
