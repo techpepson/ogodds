@@ -7,12 +7,12 @@ import { RootState } from "../redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
 import { ToastContainer } from "react-toastify";
-import { reset } from "../redux/payment/payment.slice";
+import { initializePayment } from "../redux/payment/payment.slice";
 
 const Premium: React.FC = () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
  const { data: user }:any = useSelector((state: RootState) => state.auth);
- const { loading, success, url } = useSelector(
+ const { loading, success, url,initializedPayment } = useSelector(
    (state: RootState) => state.payment
  );
 
@@ -28,11 +28,13 @@ const Premium: React.FC = () => {
 //  };
 
 
+
  const registerVip = async () => {
    await dispatch(InitializePayment(user));
+   dispatch(initializePayment()) // this is an action in the payment slice that set the initializedPayment state to true
  };
- success ? (window.location.href = url) : null; // navigate to payment checkout page
- dispatch(reset())
+
+ success ? (initializedPayment ? window.location.href = url : null) : null; // navigate to payment checkout page
 
  // Extract the reference from the URL
  const _reference = new URLSearchParams(window.location.href);
