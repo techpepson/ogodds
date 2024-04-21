@@ -33,9 +33,9 @@ const Premium: React.FC = () => {
  success ? (window.location.href = url) : null; // navigate to payment checkout page
 
  // Extract the reference from the URL
- const _reference = new URLSearchParams(url);
+ const _reference = new URLSearchParams(window.location.href);
  const reference = _reference.get("reference");
- console.log(url, reference);
+ console.log(reference);
      // Dispatch verification action
      reference && dispatch(VerifyPayment(reference));
 
