@@ -27,19 +27,15 @@ const Premium: React.FC = () => {
  };
 
 
- let initializedPayment:boolean = false; // check if payment has been initialzed
- const registerVip = async() => {
-  await dispatch(InitializePayment(user));
-  success ? window.location.href = url : null// navigate to payment checkout page
-  initializedPayment = true
-  console.log(initializedPayment)
+ const registerVip = async () => {
+   await dispatch(InitializePayment(user));
  };
+ success ? (window.location.href = url) : null; // navigate to payment checkout page
 
-
-     // Extract the reference from the URL
-     const _reference = new URLSearchParams(url);
-     const reference = _reference.get("reference");
-
+ // Extract the reference from the URL
+ const _reference = new URLSearchParams(url);
+ const reference = _reference.get("reference");
+ console.log(url, reference);
      // Dispatch verification action
      reference && dispatch(VerifyPayment(reference));
 
