@@ -6,26 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
-import { ToastContainer, toast } from "react-toastify";
-import { reset } from "../redux/payment/payment.slice";
+import { ToastContainer } from "react-toastify";
 
 const Premium: React.FC = () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
  const { data: user }:any = useSelector((state: RootState) => state.auth);
- const { loading, success, error, url } = useSelector(
+ const { loading, success, url } = useSelector(
    (state: RootState) => state.payment
  );
 
- const toastOptions: any = {
-   position: "top-right",
-   autoClose: 3000,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
- };
+//  const toastOptions: any = {
+//    position: "top-right",
+//    autoClose: 3000,
+//    hideProgressBar: false,
+//    closeOnClick: true,
+//    pauseOnHover: true,
+//    draggable: true,
+//    progress: undefined,
+//    theme: "light",
+//  };
 
 
  const registerVip = async () => {
@@ -41,20 +40,6 @@ const Premium: React.FC = () => {
    // Dispatch verification action
    reference && dispatch(VerifyPayment(reference));
  },[reference])
-
-
-
-
- useEffect(() => {
-   if (error) {
-     toast.error("Error making payment. Check user details", toastOptions);
-     dispatch(reset())
-    }else if(success){
-      toast.success("Successfully registered as a VIP member for 24hours", toastOptions);
-      dispatch(reset())
-   }
- }, [error,success]);
-
 
  // check if user is a vip member
  const isVip = user.isVip ? true : false
