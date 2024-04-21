@@ -5,6 +5,7 @@ const initialState = {
     success:false,
     error:false,
     loading:false,
+    initializedPayment:false,
     data:{},
     url:""
 }
@@ -19,6 +20,9 @@ const paymentSlice = createSlice({
             state.data = {}
             state.loading = false
             state.url = ""
+        },
+        initializePayment: (state) => {
+            state.initializedPayment = true
         }
     },
     extraReducers(builder){
@@ -55,5 +59,5 @@ const paymentSlice = createSlice({
     }
 })
 
-export const {reset} = paymentSlice.actions
+export const {reset,initializePayment} = paymentSlice.actions
 export default paymentSlice.reducer

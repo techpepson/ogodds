@@ -9,49 +9,52 @@ import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reduc
 import { ToastContainer, toast } from "react-toastify";
 
 const Premium: React.FC = () => {
-  // checks if user is a vip member
-  const { data: user }: any = useSelector((state: RootState) => state.auth);
-  let isVip = user.isVip ? true : false;
+ const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
+ const { data: user }:any = useSelector((state: RootState) => state.auth);
+ const { loading, success, error, url } = useSelector(
+   (state: RootState) => state.payment
+ );
 
-  //payment
-  const { loading, success, error, url }: any = useSelector(
-    (state: RootState) => state.payment
-  );
+ const toastOptions: any = {
+   position: "top-right",
+   autoClose: 3000,
+   hideProgressBar: false,
+   closeOnClick: true,
+   pauseOnHover: true,
+   draggable: true,
+   progress: undefined,
+   theme: "light",
+ };
 
-  // register for vip
-  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const toastOptions: any = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  };
+ let initializedPayment:boolean = false; // check if payment has been initialzed
+ const registerVip = async() => {
+  await dispatch(InitializePayment(user));
+  success ? window.location.href = url : null// navigate to payment checkout page
+  initializedPayment = true
+  console.log(initializedPayment)
+ };
 
-  let initializedPayment:boolean = false
-  const registerVip = async () => {
-      await dispatch(InitializePayment(user));
-    };
 
-    useEffect(() => {
-      console.log("visiting", url);
-      success
-        ? ((window.location.href = url), (initializedPayment = true)) //navigate to payment checkout page after getting url
-        : error &&
-          toast.error("Error making payment. Check user details", toastOptions);
-    },[registerVip])
+     // Extract the reference from the URL
+     const _reference = new URLSearchParams(url);
+     const reference = _reference.get("reference");
 
-  //verify payment
-  const _reference = new URLSearchParams(url);
-  const reference = _reference.get("reference");
-  console.log(reference)
+     // Dispatch verification action
+     reference && dispatch(VerifyPayment(reference));
 
-  initializedPayment && dispatch(VerifyPayment(reference));
 
+
+
+ useEffect(() => {
+   if (error) {
+     toast.error("Error making payment. Check user details", toastOptions);
+   }
+ }, [error]);
+
+
+ // check if user is a vip member
+ const isVip = user.isVip ? true : false
   return (
     <>
       <div className={`max-w-7xl mx-auto `}>
@@ -83,7 +86,7 @@ const Premium: React.FC = () => {
                   from OGODDS with 100% assurance. All VIP subscriptions are
                   valid until slips are won.
                 </p>
-                <Button onClick={registerVip}>
+                <Button onClick={registerVip} className={`animate ${loading ? "animate-pulse" : ""}`}>
                   {loading ? "Please wait..." : "BUY PACKAGE"}
                 </Button>
               </div>
