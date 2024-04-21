@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
-import { ToastContainer } from "react-toastify";
 import { initializePayment } from "../redux/payment/payment.slice";
 
 const Premium: React.FC = () => {
@@ -15,19 +14,6 @@ const Premium: React.FC = () => {
  const { loading, success, url,initializedPayment } = useSelector(
    (state: RootState) => state.payment
  );
-
-//  const toastOptions: any = {
-//    position: "top-right",
-//    autoClose: 3000,
-//    hideProgressBar: false,
-//    closeOnClick: true,
-//    pauseOnHover: true,
-//    draggable: true,
-//    progress: undefined,
-//    theme: "light",
-//  };
-
-
 
  const registerVip = async () => {
    await dispatch(InitializePayment(user));
@@ -85,19 +71,6 @@ const Premium: React.FC = () => {
             </div>
           </>
         )}
-        {/* react toastify */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
       </div>
     </>
   );

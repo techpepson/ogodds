@@ -40,11 +40,12 @@ const Home: React.FC = () => {
    * the slips was grouped according to the status. _id:"eg. ACTIVE", slips:[...]
    * we pick only active and free bets
    */
-  const freeSlips = slips
-    .filter((item: any) => item._id == "ACTIVE")[0]
-    ?.slips.filter((item: any) => item.type != "VIP");
+const freeSlips = slips && slips
+  .filter((item: any) => item.status === "ACTIVE")[0]
+  ?.slips.filter((item: any) => item.type !== "VIP");
 
-  const Slips = [pastSlip, freeSlips];
+const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
+
   return (
     <>
       {/*home page section*/}
@@ -66,7 +67,7 @@ const Home: React.FC = () => {
                       Welcome to OGSOO,
                     </h1>
                     <p
-                      className={`${homeStyles.wrapText} ${homeStyles.textSize}`}
+                      className={`${homeStyles.wrapText} font-rubik ${homeStyles.textSize}`}
                     >
                       Your No.1 sports prediction channel, we provide you with
                       amazing and accurate bet tips and predictions.

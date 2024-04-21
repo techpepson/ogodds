@@ -4,82 +4,33 @@ import { images } from "../assets/assets";
 import wonbet from "../assets/wonbet.jpg";
 import whatiscashout from "../assets/whatiscashout.png";
 import pending from "../assets/pending.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { useEffect } from "react";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { GetAllSlips } from "../redux/slip/slip.reducer";
 
 export default function Vip() {
 
-  // past slips
-  const vipSlips = [
-    {
-      slip_title: "VIP SLIP",
-      odds: [
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "WON",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "LOST",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "PENDING",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "WON",
-        },
-      ],
-      type: "FREE",
-      bookingCodes: {
-        sportybet: "BCSDSG1",
-        onexbet: "HJHJSD7",
-      },
-      status: "LOST",
-    },
-    {
-      slip_title: "VIP SLIPS",
-      odds: [
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "WON",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "LOST",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "PENDING",
-        },
-        {
-          title: "UEFA Champions League",
-          teams: "Barcelona vs Bayern Munchen",
-          tips: "Home - Over 2.5",
-          result: "WON",
-        },
-      ],
-      type: "FREE",
-      bookingCodes: {
-        sportybet: "BCSDSG1",
-        onexbet: "HJHJSD7",
-      },
-      status: "LOST",
-    },
-  ];
+  // vip slips
+  const {
+    loading,
+    success,
+    error,
+    slips,
+  }: any = useSelector((state: RootState) => state.slips);
+  const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
+
+  const token = localStorage.getItem("token")
+
+  useEffect(() => {
+    dispatch(GetAllSlips(token))
+  },[token])
+
+    const vipSlips = slips
+      .filter((item: any) => item._id == "ACTIVE")[0]
+      ?.slips.filter((item: any) => item.type == "VIP");
+
   return (
     <div>
       <div>
@@ -91,7 +42,7 @@ export default function Vip() {
         >
           {/*container for the table */}
           <div className="flex flex-col">
-            {vipSlips.map((vipSlip) => {
+            {vipSlips?.length != 0 ? (success ? (vipSlips.map((vipSlip:any) => {
               return (
                 <>
                   <div className={`mt-5 h-full`}>
@@ -134,10 +85,10 @@ export default function Vip() {
                         </Table.Header>
 
                         {/* dynamically getting table rows */}
-                        {vipSlip.odds.map((item) => {
+                        {vipSlip.odds.map((item:any) => {
                           return (
                             <TableRow
-                              title={item.title}
+                              league={item.league}
                               teams={item.teams}
                               tips={item.tips}
                               result={item.result}
@@ -153,7 +104,7 @@ export default function Vip() {
                             SportyBet
                           </p>
                           <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                            {vipSlip.bookingCodes.sportybet}
+                            {vipSlip.bookingCodes?.sportybet}
                           </p>
                         </div>
                         <div className="flex gap-2 items-center">
@@ -161,7 +112,7 @@ export default function Vip() {
                             1XBet
                           </p>
                           <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                            {vipSlip.bookingCodes.onexbet}
+                            {vipSlip.bookingCodes?.onexbet}
                           </p>
                         </div>
                       </div>
@@ -169,7 +120,10 @@ export default function Vip() {
                   </div>
                 </>
               );
-            })}
+            })) :
+            loading ? <p className="animate animate-pulse text-lg text-red-500/80 font-medium">Loading...</p> 
+            : error ? <p className="animate animate-pulse text-lg text-red-500/80 font-medium">Error loading slips. Refresh page</p> :
+             null) : <p className="animate animate-pulse text-lg text-red-500/80 font-medium">NO VIP SLIP POSTED YET!</p>}
           </div>
           <>
             <div className="flex gap-1 sm:gap-10 flex-row sm:flex-col max-w-full">

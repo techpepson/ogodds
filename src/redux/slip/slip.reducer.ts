@@ -39,7 +39,6 @@ export const GetAllSlips:any = createAsyncThunk("all/slips", async (token:any,th
         }
     )
 
-      console.log("slips",res.data);
     return res.data
     }catch(e){
         console.log(e)
