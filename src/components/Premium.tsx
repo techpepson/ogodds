@@ -1,16 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { money } from "../assets/assets";
-import { Button} from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { Button } from "@radix-ui/themes";
 import Vip from "./Vip";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store"; 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
+import { ToastContainer, toast } from "react-toastify";
 
 const Premium: React.FC = () => {
   // checks if user is a vip member
-     const { data }: any = useSelector((state: RootState) => state.auth);
+  const { data: user }: any = useSelector((state: RootState) => state.auth);
+  let isVip = user.isVip ? true : false;
 
-  let isVip = data.isVip ? true : false
+  //payment
+  const { loading, success, error, url }: any = useSelector(
+    (state: RootState) => state.payment
+  );
+
+  // register for vip
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const toastOptions: any = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  };
+
+  let initializedPayment:boolean = false
+  const registerVip = async () => {
+      await dispatch(InitializePayment(user));
+    };
+
+    useEffect(() => {
+      console.log("visiting", url);
+      success
+        ? ((window.location.href = url), (initializedPayment = true)) //navigate to payment checkout page after getting url
+        : error &&
+          toast.error("Error making payment. Check user details", toastOptions);
+    },[registerVip])
+
+  //verify payment
+  const _reference = new URLSearchParams(url);
+  const reference = _reference.get("reference");
+  console.log(reference)
+
+  initializedPayment && dispatch(VerifyPayment(reference));
 
   return (
     <>
@@ -43,13 +83,26 @@ const Premium: React.FC = () => {
                   from OGODDS with 100% assurance. All VIP subscriptions are
                   valid until slips are won.
                 </p>
-                <Button>
-                  <Link to="/">BUY PACKAGE</Link>
+                <Button onClick={registerVip}>
+                  {loading ? "Please wait..." : "BUY PACKAGE"}
                 </Button>
               </div>
             </div>
           </>
         )}
+        {/* react toastify */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

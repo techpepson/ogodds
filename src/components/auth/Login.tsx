@@ -67,7 +67,6 @@ const navigate = useNavigate();
     
   };
   
-  console.log(data);
   success && dispatch(CreateSession(data));
 
   return (

@@ -1,11 +1,11 @@
 import { Table } from '@radix-ui/themes'
 import won from "../../assets/won.jpg"
 
-export default function TableRow({title,teams,tips,result}:any) {
+export default function TableRow({league,teams,tips,result}:any) {
   return (
     <>
       <Table.Row className="shadow-sm">
-        <Table.RowHeaderCell>{title}</Table.RowHeaderCell>
+        <Table.RowHeaderCell>{league}</Table.RowHeaderCell>
         <Table.Cell>{teams}</Table.Cell>
         <Table.Cell>{tips}</Table.Cell>
         <Table.Cell>
