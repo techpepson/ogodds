@@ -7,6 +7,7 @@ import { RootState } from "../redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
 import { ToastContainer, toast } from "react-toastify";
+import { reset } from "../redux/payment/payment.slice";
 
 const Premium: React.FC = () => {
  const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
@@ -36,8 +37,10 @@ const Premium: React.FC = () => {
  const _reference = new URLSearchParams(window.location.href);
  const reference = _reference.get("reference");
 
-     // Dispatch verification action
-     reference && dispatch(VerifyPayment(reference));
+ useEffect(() => {
+   // Dispatch verification action
+   reference && dispatch(VerifyPayment(reference));
+ },[reference])
 
 
 
@@ -45,8 +48,10 @@ const Premium: React.FC = () => {
  useEffect(() => {
    if (error) {
      toast.error("Error making payment. Check user details", toastOptions);
+     dispatch(reset())
     }else if(success){
-     toast.success("Successfully registered as a VIP member for 24hours", toastOptions);
+      toast.success("Successfully registered as a VIP member for 24hours", toastOptions);
+      dispatch(reset())
    }
  }, [error,success]);
 
