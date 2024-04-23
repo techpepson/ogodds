@@ -15,29 +15,40 @@ import { PaymentsSum } from "../../redux/payment/payment.reducer";
 import { GetUsers } from "../../redux/auth/auth.reducer";
 
 const AdminPage: React.FC = () => {
-  const { data:user }: any = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
-  const { allSlips,loading,success,error }: any = useSelector((state: RootState) => state.slips);
-  const { sum,loading:sum_loading }: any = useSelector((state: RootState) => state.payment);
-  const { users,loading:users_loading}: any = useSelector((state: RootState) => state.auth);
+  const { data: user }: any = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const { allSlips, loading, success, error }: any = useSelector(
+    (state: RootState) => state.slips
+  );
+  const { sum, loading: sum_loading }: any = useSelector(
+    (state: RootState) => state.payment
+  );
+  const { users, loading: users_loading }: any = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    dispatch(PaymentsSum) // gets sum of payments
-    dispatch(GetUsers(token)) // gets all users
-    dispatch(GetAllSlips(token)) // gets all slips
-  },[dispatch,success])
-  
-  const navigate = useNavigate()
-  user.admin && user.admin == false ? navigate("/") : null// block non admin users from here
-  
-  const vip_users = users && users.filter((user:any) => user.vip == true)?.length
-  const casual_users = users && users.filter((user:any) => user.vip != true)?.length
-  
-  const deleteSlip = (id:any) => {
-    const token = localStorage.getItem("token")
-   dispatch(DeleteSlip(token,id));
-  }
+    const token = localStorage.getItem("token");
+    dispatch(PaymentsSum(token)); // gets sum of payments
+    dispatch(GetUsers(token)); // gets all users
+    dispatch(GetAllSlips(token)); // gets all slips
+  }, [dispatch, success]);
+
+  const navigate = useNavigate();
+  user.admin && user.admin == false ? navigate("/") : null; // block non admin users from here
+
+  const vip_users =
+    users && users.filter((user: any) => user.vip == true)?.length;
+  const casual_users =
+    users && users.filter((user: any) => user.vip != true)?.length;
+
+  const deleteSlip = async (_id: any) => {
+    const token = localStorage.getItem("token");
+    const confirm = window.confirm("Do you want to delete this slip?");
+    const data = { token, _id };
+    confirm && await dispatch(DeleteSlip(data));
+    confirm && await dispatch(GetAllSlips(token)); // gets all slips
+  };
   return (
     <>
       <div className={`max-w-7xl mx-auto w-full`}>
@@ -50,7 +61,7 @@ const AdminPage: React.FC = () => {
                 {sum_loading ? (
                   <p className="animate animate-pulse">Loading...</p>
                 ) : sum ? (
-                  sum
+                  sum / 100
                 ) : null}
               </p>
               <h2 className="text-xl leading-7 tracking-tight text-gray-100/80">
@@ -88,7 +99,8 @@ const AdminPage: React.FC = () => {
                 ) : null}
               </p>
               <h2 className="text-xl leading-7 tracking-tight text-gray-100/80">
-                Casual user<span>{casual_users && casual_users == 1 ? "" : "s"}</span>
+                Casual user
+                <span>{casual_users && casual_users == 1 ? "" : "s"}</span>
               </h2>
             </div>
 
@@ -120,7 +132,7 @@ const AdminPage: React.FC = () => {
                     <div className={`mt-5 h-full`}>
                       <div className="w-full bg-slate-50 shadow-md rounded-md mb-8">
                         <div className={`flex`}>
-                          <p className="w-full rounded-t-md  flex flex-wrap justify-between items-center bg-cyan-500 text-white p-2 text:lg sm:text-xl font-semibold">
+                          <p className="w-full rounded-t-md  flex flex-wrap justify-between items-center bg-slate100 text-gray-800/80 p-2 text:lg sm:text-xl font-semibold">
                             {slip.slip_title}
 
                             <span className="flex items-center gap-2">
@@ -147,51 +159,14 @@ const AdminPage: React.FC = () => {
                                   to={`/adminEdit?id=${slip._id}`}
                                   className="bg-red-100/10 p-2 rounded-lg flex items-center"
                                 >
-                                  <Pencil1Icon className="w-4 sm:w-6 h-auto" />
+                                  <Pencil1Icon className="w-4 sm:w-4 h-auto" />
                                 </Link>
                                 <Link
                                   to=""
-                                  className="bg-red-800/50 p-2 rounded-lg flex items-center"
+                                  className="bg-red-300/50 p-2 rounded-lg flex items-center"
                                 >
-                                  {
-                                    <>
-                                      <button
-                                        className="btn"
-                                        onClick={() =>
-                                         document?
-                                            .getElementById("my_modal_5")
-                                            .showModal()
-                                        }
-                                      >
-                                        <TrashIcon className="w-4 sm:w-6 h-auto" />
-                                      </button>
-                                      <dialog
-                                        id="my_modal_5"
-                                        className="modal modal-bottom sm:modal-middle"
-                                      >
-                                        <div className="modal-box">
-                                          <h3 className="font-bold text-lg">
-                                            Hello!
-                                          </h3>
-                                          <p className="py-4">
-                                            Do you want to delete{" "}
-                                            {slip.slip_title}?
-                                          </p>
-                                          <div className="modal-action">
-                                            <form method="dialog">
-                                              {/* if there is a button in form, it will close the modal */}
-                                              <button className="btn">
-                                                Close
-                                              </button>
-                                              <button className="btn btn-danger">
-                                                Delete
-                                              </button>
-                                            </form>
-                                          </div>
-                                        </div>
-                                      </dialog>
-                                    </>
-                                  }
+                                  {loading ? <p className="animate animate-pulse text-white font-medium -pt-1">...</p> : <TrashIcon className="w-4 sm:w-4 h-auto" onClick={() => deleteSlip(slip._id)}/>}
+                                      
                                 </Link>
                               </div>
                             </span>

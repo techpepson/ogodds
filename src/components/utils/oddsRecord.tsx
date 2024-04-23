@@ -1,17 +1,18 @@
 import { DropdownMenu } from '@radix-ui/themes'
 
-export default function OddsRecord({ isNew,handleOnchange }: any) {
-    const result = [
-        {id:"pending",value:"pending"},
-        {id:"won",value:"won"},
-        {id:"lost",value:"lost"}
-    ]
+const result = [
+    {id:"pending",value:"pending"},
+    {id:"won",value:"won"},
+    {id:"lost",value:"lost"}
+]
+export default function OddsRecord({ isNew,handleOnchange,formData }: any) {
   return (
     <div className="w-full flex flex-wrap gap-2 items-center">
       <input
         type="text"
         name="league"
         placeholder="league"
+        value={formData.league}
         className='p-2 ring-1 ring-gray-900/5 shadow-sm'
         onChange={handleOnchange}
       />
@@ -19,6 +20,7 @@ export default function OddsRecord({ isNew,handleOnchange }: any) {
         type="text"
         name="teams"
         placeholder="teams"
+        value={formData.teams}
         className='p-2 ring-1 ring-gray-900/5 shadow-sm'
         onChange={handleOnchange}
       />
@@ -26,6 +28,7 @@ export default function OddsRecord({ isNew,handleOnchange }: any) {
         type="text"
         name="tips"
         placeholder="tips"
+        value={formData.tips}
         className='p-2 ring-1 ring-gray-900/5 shadow-sm'
         onChange={handleOnchange}
       />

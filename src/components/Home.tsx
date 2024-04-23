@@ -7,7 +7,7 @@ import { homeStyles } from "../styles/home-styles";
 import { telegram } from "../assets/assets";
 import TableRow from "./utils/tableRow";
 import wonbet from "../assets/wonbet.jpg";
-import whatiscashout from "../assets/whatiscashout.jpg";
+import whatiscashout from "../assets/whatiscashout.png";
 import pending from "../assets/pending.jpg"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store"; 
@@ -158,7 +158,7 @@ const Slips = [
               FREE BETTING SLIPS (LIMITED)
             </p>
             <div
-              className={`flex flex-col sm:flex-row justify-center items-center p-2 gap-10 align-middle`}
+              className={`flex flex-col sm:flex-row justify-center items-center p-2 pb-10 gap-10 align-middle`}
             >
               {/*container for the table in the bottom*/}
               <div className={`mt-5 h-full`}>

@@ -69,10 +69,12 @@ export const DeleteSlip:any = createAsyncThunk("delete/slip", async (data:any,th
     try{
         const {token,_id} = data
         const _token = token?.replace(/^"(.*)"$/, "$1")
+        const _url = `${url}/slip/delete/${_id}`
+        console.log(_url)
         const res = await axios(
         {
             method:"delete",
-            url:`${url}/slip/delete/${_id}`,
+            url:_url,
             headers:{
                 "Content-Type":"application/json",
                 Authorization: `Bearer ${_token}`

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const url = "https://ogsoo-engine.onrender.com";
-const amount = "5300";
+const amount = "5000";
 const _token = localStorage.getItem("token");
 const token = _token?.replace(/^"(.*)"$/, "$1");
 
@@ -62,14 +62,14 @@ export const VerifyPayment = createAsyncThunk(
 
 export const PaymentsSum = createAsyncThunk(
   "payment/all",
-  async (_: any, thunkApi) => {
+  async (token: any, thunkApi) => {
     try{
         const res = await axios({
       method: "get",
       url: `${url}/payment/all`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token.replace(/^"(.*)"$/, "$1")}`,
       }
     });
 

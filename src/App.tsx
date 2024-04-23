@@ -5,7 +5,7 @@ import "@radix-ui/themes/styles.css";
 import About from "./components/About";
 import Premium from "./components/Premium";
 import Contact from "./components/Contact";
-import AdminLogin from "./components/auth/AdminLogin";
+import AdminCreate from "./components/auth/AdminCreateSlip";
 import AdminEdit from "./components/auth/AdminEdit";
 import AdminPage from "./components/auth/AdminPage";
 import Navbar from "./components/utils/Header";
@@ -48,9 +48,9 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/vip" element={<Premium />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/adminlog" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/adminEdit" element={<AdminEdit />} />
+        <Route path="/adminCreate" element={<AdminCreate />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
