@@ -33,7 +33,7 @@ const Premium: React.FC = () => {
 
  // check if user is a vip member
  const isVip = user.vip
-  return ( 
+  return (
     <>
       <div className={`max-w-7xl mx-auto `}>
         {isVip ? (
@@ -64,9 +64,14 @@ const Premium: React.FC = () => {
                   from OGODDS with 100% assurance. All VIP subscriptions are
                   valid until slips are won.
                 </p>
-                <Button onClick={registerVip} className={`animate ${loading ? "animate-pulse" : ""}`}>
+                <button
+                  onClick={registerVip}
+                  className={`bg-cyan-500 animate p-2 rounded-lg text-white font-medium${
+                    loading ? "animate-pulse" : ""
+                  }`}
+                >
                   {loading ? "Please wait..." : "BUY PACKAGE"}
-                </Button>
+                </button>
               </div>
             </div>
           </>

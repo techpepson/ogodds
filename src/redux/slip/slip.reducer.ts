@@ -25,6 +25,26 @@ export const LatestSlip:any = createAsyncThunk("latest/slip",async(token:any,thu
 });
 
 
+export const GetAllGroupedSlips:any = createAsyncThunk("grouped/slips", async (token:any,thunkAPI) => {
+    try{
+        const _token = token?.replace(/^"(.*)"$/, "$1")
+        const res = await axios(
+        {
+            method:"get",
+            url:`${url}/slip/allgrouped`,
+            headers:{
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${_token}`
+            }
+        }
+    )
+
+    return res.data
+    }catch(e){
+        console.log(e)
+        return thunkAPI.rejectWithValue({error:e})
+    }
+})
 export const GetAllSlips:any = createAsyncThunk("all/slips", async (token:any,thunkAPI) => {
     try{
         const _token = token?.replace(/^"(.*)"$/, "$1")
@@ -36,6 +56,71 @@ export const GetAllSlips:any = createAsyncThunk("all/slips", async (token:any,th
                 "Content-Type":"application/json",
                 Authorization: `Bearer ${_token}`
             }
+        }
+    )
+
+    return res.data
+    }catch(e){
+        console.log(e)
+        return thunkAPI.rejectWithValue({error:e})
+    }
+})
+export const DeleteSlip:any = createAsyncThunk("delete/slip", async (data:any,thunkAPI) => {
+    try{
+        const {token,_id} = data
+        const _token = token?.replace(/^"(.*)"$/, "$1")
+        const res = await axios(
+        {
+            method:"delete",
+            url:`${url}/slip/delete/${_id}`,
+            headers:{
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${_token}`
+            }
+        }
+    )
+
+    return res.data
+    }catch(e){
+        console.log(e)
+        return thunkAPI.rejectWithValue({error:e})
+    }
+})
+export const CreateSlip:any = createAsyncThunk("create/slip", async (data:any,thunkAPI) => {
+    try{
+        const {token,slip} = data
+        const _token = token?.replace(/^"(.*)"$/, "$1")
+        const res = await axios(
+        {
+            method:"post",
+            url:`${url}/slip/create`,
+            headers:{
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${_token}`
+            },data:{
+                slip
+            }
+        }
+    )
+
+    return res.data
+    }catch(e){
+        console.log(e)
+        return thunkAPI.rejectWithValue({error:e})
+    }
+})
+export const UpdateSlip:any = createAsyncThunk("update/slip", async (data:any,thunkAPI) => {
+    try{
+        const {token,_id,slip} = data
+        const _token = token?.replace(/^"(.*)"$/, "$1")
+        const res = await axios(
+        {
+            method:"put",
+            url:`${url}/slip/update/${_id}`,
+            headers:{
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${_token}`
+            },data:{slip}
         }
     )
 

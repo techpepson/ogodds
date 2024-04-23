@@ -59,3 +59,24 @@ export const VerifyPayment = createAsyncThunk(
     }
   }
 );
+
+export const PaymentsSum = createAsyncThunk(
+  "payment/all",
+  async (_: any, thunkApi) => {
+    try{
+        const res = await axios({
+      method: "get",
+      url: `${url}/payment/all`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    return res.data;
+    }catch(e){
+        console.log(e)
+        return thunkApi.rejectWithValue({error:e})
+    }
+  }
+);

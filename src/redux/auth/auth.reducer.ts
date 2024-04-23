@@ -91,6 +91,27 @@ export const GetUser = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue({ error });
     }
+  })
+
+// users
+export const GetUsers = createAsyncThunk(
+  'users',
+  async (token: any, thunkAPI) => {
+    try {
+      const _token = token.replace(/^"(.*)"$/,`$1`)
+      const response = await axios({
+        method: 'get',
+        url: `${url}/auth/users`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${_token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error });
+    }
   }
 
 

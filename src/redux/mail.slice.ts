@@ -11,7 +11,8 @@ const initialState = {
 const url = "https://ogsoo-engine.onrender.com";
 
 export const SendSMS = createAsyncThunk("sms", async (data: any, thunkAPi) => {
-  const res = await axios({
+  try {
+    const res = await axios({
     method: "post",
     url: `${url}/sms/send`,
     headers: {
@@ -23,6 +24,10 @@ export const SendSMS = createAsyncThunk("sms", async (data: any, thunkAPi) => {
   console.log(res.data);
 
   return res.data;
+  }catch(e){
+    console.log(e)
+    return thunkAPi.rejectWithValue({error:e})
+  }
 });
 
 const smsSlice = createSlice({

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { InitializePayment, VerifyPayment } from "./payment.reducer"
+import { InitializePayment, PaymentsSum, VerifyPayment } from "./payment.reducer"
 
 const initialState = {
     success:false,
     error:false,
     loading:false,
     initializedPayment:false,
+    sum:"",
     data:{},
     url:""
 }
@@ -52,6 +53,20 @@ const paymentSlice = createSlice({
             state.data = action.payload
         })
         .addCase(VerifyPayment.rejected, (state) => {
+            state.loading = false
+            state.success = false
+            state.error = true
+        })
+        .addCase(PaymentsSum.pending, (state) => {
+            state.loading = true
+        })
+        .addCase(PaymentsSum.fulfilled, (state,action) => {
+            state.loading = false
+            state.success = true
+            state.error = false
+            state.sum = action.payload
+        })
+        .addCase(PaymentsSum.rejected, (state) => {
             state.loading = false
             state.success = false
             state.error = true

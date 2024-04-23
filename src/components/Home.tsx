@@ -12,7 +12,7 @@ import pending from "../assets/pending.jpg"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store"; 
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { GetAllSlips, LatestSlip } from "../redux/slip/slip.reducer";
+import { GetAllGroupedSlips, LatestSlip } from "../redux/slip/slip.reducer";
 
 const Home: React.FC = () => {
   const { data }: any = useSelector((state: RootState) => state.auth);
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     try {
       dispatch(LatestSlip(token));
-      dispatch(GetAllSlips(token));
+      dispatch(GetAllGroupedSlips(token));
     } catch (e) {
       console.log(`error getting latest slip: ${e}`);
     }
@@ -41,10 +41,14 @@ const Home: React.FC = () => {
    * we pick only active and free bets
    */
 const freeSlips = slips && slips
-  .filter((item: any) => item.status === "ACTIVE")[0]
-  ?.slips.filter((item: any) => item.type !== "VIP");
+  .filter((item: any) => item._id == "ACTIVE")[0]
+  ?.slips.filter((item: any) => item.type != "VIP").reverse();
 
-const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
+const Slips = [
+  ...(pastSlip ? [pastSlip] : []),
+  ...(Array.isArray(freeSlips) ? freeSlips : []),
+];
+
 
   return (
     <>
@@ -80,7 +84,7 @@ const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
                     <Button
                       radius="full"
                       color="cyan"
-                      className={`${homeStyles.textSize}`}
+                      className={`${homeStyles.textSize} px-2 `}
                     >
                       <Link to="/vip">JOIN VIP PAGE</Link>
                     </Button>
@@ -165,9 +169,9 @@ const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
                       return (
                         <>
                           <div key={index} className={`mt-5 w-full h-full`}>
-                            <div className="w-full bg-slate-50 rounded-md mb-8">
+                            <div className="w-full bg-slate-50 rounded-md mb-8 shadow-md">
                               <div className={`flex`}>
-                                <p className="w-full rounded-t-md  flex justify-between items-center bg-red-400 text-white p-2 text-xl font-semibold">
+                                <p className="w-full rounded-t-md  flex-wrap flex justify-between items-center bg-cyan-500 text-white p-2 text-xl font-semibold">
                                   {slip?.slip_title}
 
                                   <span className="flex items-center gap-2">
@@ -235,7 +239,7 @@ const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
                                     SportyBet
                                   </p>
                                   <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                                    {slip?.bookingCodes?.sportybet}
+                                    {slip?.booking_codes?.sporty_bet}
                                   </p>
                                 </div>
                                 <div className="flex gap-2 items-center">
@@ -243,7 +247,7 @@ const Slips = [pastSlip, ...(Array.isArray(freeSlips) ? freeSlips : [])];
                                     1XBet
                                   </p>
                                   <p className="bg-white rounded-md p-1 px-2 font-bold border-[1px] border-slate-300">
-                                    {slip?.bookingCodes?.onexbet}
+                                    {slip?.booking_codes?.onexbet}
                                   </p>
                                 </div>
                               </div>

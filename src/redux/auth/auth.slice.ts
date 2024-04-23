@@ -1,8 +1,9 @@
 import {createSlice } from "@reduxjs/toolkit";
-import { CreateSession, GetUser, LoginUser, RegisterUser } from "./auth.reducer";
+import { CreateSession, GetUser, GetUsers, LoginUser, RegisterUser } from "./auth.reducer";
 
 const initialState = {
   data:{},
+  users:[{}],
   error: false,
   loading: false,
   success: false,
@@ -68,6 +69,19 @@ const authSlice:any = createSlice({
         state.data = action.payload;
       })
       .addCase(GetUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.success = false;
+      })
+      .addCase(GetUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(GetUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.users = action.payload;
+      })
+      .addCase(GetUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
         state.success = false;

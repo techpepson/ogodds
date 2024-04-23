@@ -187,7 +187,7 @@ export default function Contact() {
                 </label>
                 <div className="mt-2.5">
                   <input
-                    type="tel"
+                    type="text"
                     name="subject"
                     id="subject"
                     onChange={handleOnchange}
