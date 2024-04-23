@@ -13,8 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store"; 
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { GetAllGroupedSlips, LatestSlip } from "../redux/slip/slip.reducer";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const Home: React.FC = () => {
+  
+
   const { data }: any = useSelector((state: RootState) => state.auth);
 
   // latest slip
@@ -34,6 +37,8 @@ const Home: React.FC = () => {
     }
   }, [data]);
 
+
+
   //slips
   /**
    * checks if the slips is iterable when destructured
@@ -48,6 +53,7 @@ const Slips = [
   ...(pastSlip ? [pastSlip] : []),
   ...(Array.isArray(freeSlips) ? freeSlips : []),
 ];
+
 
 
   return (
@@ -164,6 +170,7 @@ const Slips = [
               <div className={`mt-5 h-full`}>
                 {/*container for the table */}
                 <div className="flex flex-col">
+                  <button onClick={() => window.location.reload()} className="text-gray-900/70 font-bold"><ReloadIcon /></button>
                   {data._id && Slips ? (
                     Slips.map((slip?, index?) => {
                       return (

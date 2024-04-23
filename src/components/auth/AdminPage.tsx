@@ -1,5 +1,5 @@
 import { UserGroupIcon } from "@heroicons/react/20/solid";
-import { BarChartIcon, Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { BarChartIcon, Pencil1Icon, PlusIcon, ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import { Table} from "@radix-ui/themes";
 import TableRow from "../utils/tableRow";
 import React, { useEffect } from "react";
@@ -35,7 +35,8 @@ const AdminPage: React.FC = () => {
   }, [dispatch, success]);
 
   const navigate = useNavigate();
-  user.admin && user.admin == false ? navigate("/") : null; // block non admin users from here
+  user.admin == false ? navigate("/") : null; // block non admin users from here
+
 
   const vip_users =
     users && users.filter((user: any) => user.vip == true)?.length;
@@ -125,6 +126,13 @@ const AdminPage: React.FC = () => {
           </div>
           {/*container for the table */}
           <div className="flex flex-col m-2 sm:m-0">
+            <button
+              onClick={() => window.location.reload()}
+              className="text-gray-900/70 font-bold"
+            >
+              <ReloadIcon />
+            </button>
+
             {success ? (
               allSlips?.map((slip: any) => {
                 return (
@@ -165,8 +173,16 @@ const AdminPage: React.FC = () => {
                                   to=""
                                   className="bg-red-300/50 p-2 rounded-lg flex items-center"
                                 >
-                                  {loading ? <p className="animate animate-pulse text-white font-medium -pt-1">...</p> : <TrashIcon className="w-4 sm:w-4 h-auto" onClick={() => deleteSlip(slip._id)}/>}
-                                      
+                                  {loading ? (
+                                    <p className="animate animate-pulse text-white font-medium -pt-1">
+                                      ...
+                                    </p>
+                                  ) : (
+                                    <TrashIcon
+                                      className="w-4 sm:w-4 h-auto"
+                                      onClick={() => deleteSlip(slip._id)}
+                                    />
+                                  )}
                                 </Link>
                               </div>
                             </span>

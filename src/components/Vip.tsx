@@ -11,6 +11,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { GetAllGroupedSlips } from "../redux/slip/slip.reducer";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Vip() {
   const toastOptions: any = {
@@ -59,6 +60,13 @@ export default function Vip() {
         >
           {/*container for the table */}
           <div className="flex flex-col">
+            <button
+              onClick={() => window.location.reload()}
+              className="text-gray-900/70 font-bold"
+            >
+              <ReloadIcon />
+            </button>
+
             {vipSlips?.length != 0 ? (
               success ? (
                 vipSlips.map((vipSlip: any) => {

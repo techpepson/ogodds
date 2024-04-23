@@ -49,7 +49,7 @@ const AdminCreate = () => {
   currentSlip = slip_token && JSON.parse(slip_token);
 
   const navigate = useNavigate();
-  user.admin && user.admin == false ? navigate("/") : null; // block non admin users from here
+  user.admin == false ? navigate("/") : null; // block non admin users from here
 
   const [formData, setFormData] = useState({
     slip_title: currentSlip?.slip_title,
@@ -126,20 +126,20 @@ const handleOddschange = (
           type="text"
           name="league"
           placeholder="league"
-          className="p-2 ring-1 ring-gray-900/5 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         <input
           type="text"
           name="teams"
           placeholder="teams"
-          className="p-2 ring-1 ring-gray-900/5 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         <input
           type="text"
           name="tips"
-          className="p-2 ring-1 ring-gray-900/5 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         {
@@ -219,7 +219,7 @@ const handleOddschange = (
               name="slip_title"
               onChange={handleOnchange}
               value={formData.slip_title}
-              className="ring-1 ring-gray-900/5 shadow-sm rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              className="ring-1 ring-gray-900/5 bg-slate-50 shadow-sm rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
           </div>
 
@@ -245,21 +245,21 @@ const handleOddschange = (
                         type="text"
                         name="league"
                         placeholder="league"
-                        className="p-2 ring-1 ring-gray-900/5 shadow-sm"
-                        onChange={(e) => handleOddschange(e,index)}
+                        className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
+                        onChange={(e) => handleOddschange(e, index)}
                       />
                       <input
                         type="text"
                         name="teams"
                         placeholder="teams"
-                        className="p-2 ring-1 ring-gray-900/5 shadow-sm"
-                        onChange={(e) => handleOddschange(e,index)}
+                        className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
+                        onChange={(e) => handleOddschange(e, index)}
                       />
                       <input
                         type="text"
                         name="tips"
-                        className="p-2 ring-1 ring-gray-900/5 shadow-sm"
-                        onChange={(e) => handleOddschange(e,index)}
+                        className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
+                        onChange={(e) => handleOddschange(e, index)}
                       />
                       {
                         <>
@@ -319,7 +319,7 @@ const handleOddschange = (
               placeholder="sportybet"
               onChange={handleOnchange}
               value={formData.booking_codes?.sporty_bet}
-              className="ring-1 ring-gray-900/5 rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              className="ring-1 ring-gray-900/5 bg-slate-50 rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
             <input
               type="text"
@@ -327,7 +327,7 @@ const handleOddschange = (
               placeholder="onexbet"
               onChange={handleOnchange}
               value={formData.booking_codes?.onexbet}
-              className="ring-1 ring-gray-900/5 rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              className="ring-1 ring-gray-900/5 bg-slate-50 rounded-lg bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
           </div>
 
