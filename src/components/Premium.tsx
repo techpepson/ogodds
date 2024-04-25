@@ -1,12 +1,37 @@
-import React from "react";
+import  { useEffect } from "react";
 import { money } from "../assets/assets";
-import { Button, Card } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
 import Vip from "./Vip";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { InitializePayment, VerifyPayment } from "../redux/payment/payment.reducer";
+import { initializePayment } from "../redux/payment/payment.slice";
 
 const Premium: React.FC = () => {
-  // checks if user is a vip member
-  const isVip = true
+ const dispatch = useDispatch<ThunkDispatch<any,any,any>>();
+ const { data: user }:any = useSelector((state: RootState) => state.auth);
+ const { loading, success, url,initializedPayment } = useSelector(
+   (state: RootState) => state.payment
+ );
+
+ const registerVip = async () => {
+   await dispatch(InitializePayment(user));
+   dispatch(initializePayment()) // this is an action in the payment slice that set the initializedPayment state to true
+ };
+
+ success ? (initializedPayment ? window.location.href = url : null) : null; // navigate to payment checkout page
+
+ // Extract the reference from the URL
+ const _reference = new URLSearchParams(window.location.href);
+ const reference = _reference.get("reference");
+
+ useEffect(() => {
+   // Dispatch verification action
+   reference && dispatch(VerifyPayment(reference));
+ },[reference])
+
+ // check if user is a vip member
+ const isVip = user.vip
   return (
     <>
       <div className={`max-w-7xl mx-auto `}>
@@ -38,9 +63,14 @@ const Premium: React.FC = () => {
                   from OGODDS with 100% assurance. All VIP subscriptions are
                   valid until slips are won.
                 </p>
-                <Button>
-                  <Link to="/">BUY PACKAGE</Link>
-                </Button>
+                <button
+                  onClick={registerVip}
+                  className={`bg-cyan-500 animate p-2 rounded-lg text-white font-medium${
+                    loading ? "animate-pulse" : ""
+                  }`}
+                >
+                  {loading ? "Please wait..." : "BUY PACKAGE"}
+                </button>
               </div>
             </div>
           </>

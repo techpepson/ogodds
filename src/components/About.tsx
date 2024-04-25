@@ -9,7 +9,7 @@ const About: React.FC = () => {
     <>
       {/*container for the about page*/}
       <div className={`max-w-7xl mx-auto overflow-hidden`}>
-        <div className="m-2 sm:m-28 w-full flex items-center">
+        <div className="m-2 sm:m-28 w-full flex sm:flex-row flex-col items-center">
           {/*image and text section on the upper section of the about page*/}
           <img
             src={vini}
@@ -17,9 +17,9 @@ const About: React.FC = () => {
             className={`w-[26em] rounded-md`}
           />
           <div
-            className={`rounded-2xl w-1/2 bg-white shadow-lg ring-1 ring-gray-900/5 p-6 text-large font-semibold leading-7 tracking-tight text-gray-900 sm:p-12 sm:text-xl sm:leading-8 -ml-10`}
+            className={`rounded-2xl w-full sm:w-1/2 bg-white shadow-lg ring-1 ring-gray-900/5 p-6 text-large font-semibold leading-7 tracking-tight text-gray-900 sm:p-12 sm:text-xl sm:leading-8 sm:-ml-10`}
           >
-            <p className={`font-bold`}>Introducing OG ODDS</p>
+            <p className={`font-bold text-xl`}>Introducing OG ODDS</p>
             <span className={`max-w-full w-max text-start`}>
               The bigger the sports events the more interest,excitement and
               media attention on the action. And the more betting markets we

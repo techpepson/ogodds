@@ -7,7 +7,7 @@ import { RootState } from "../../redux/store";
 import { GetAllSlips } from "../../redux/slip/slip.reducer";
 import { DropdownMenu } from "@radix-ui/themes";
 
-const AdminEdit = () => {
+const AdminCreate = () => {
   const result = [
     { id: "pending", value: "pending" },
     { id: "won", value: "won" },
@@ -31,77 +31,90 @@ const AdminEdit = () => {
 
   const { data: user }: any = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const { allSlips}: any = useSelector(
-    (state: RootState) => state.slips
-  );
+  const { allSlips }: any = useSelector((state: RootState) => state.slips);
 
-  
   useEffect(() => {
     const token = localStorage.getItem("token");
     dispatch(GetAllSlips(token));
   }, []);
-  
+
   // getting the slip that we want to edit and saving it in localstorage
- let currentSlip:any,slip_token:any
+  let currentSlip: any, slip_token: any;
 
-let _currentSlip = allSlips.filter(
-   (slip: any) => slip._id == query
- )[0];
+  let _currentSlip = allSlips.filter((slip: any) => slip._id == query)[0];
 
-   _currentSlip &&
-     localStorage.setItem("currentSlip", JSON.stringify(_currentSlip));
-   slip_token = _currentSlip && localStorage.getItem("currentSlip");
-   currentSlip = slip_token && JSON.parse(slip_token);
-  
+  _currentSlip &&
+    localStorage.setItem("currentSlip", JSON.stringify(_currentSlip));
+  slip_token = _currentSlip && localStorage.getItem("currentSlip");
+  currentSlip = slip_token && JSON.parse(slip_token);
+
   const navigate = useNavigate();
   user.admin == false ? navigate("/") : null; // block non admin users from here
 
-   const [formData, setFormData] = useState({
-     slip_title: currentSlip?.slip_title,
-     booking_codes: {
-       sporty_bet:currentSlip?.booking_codes?.sporty_bet,
-       onexbet: currentSlip?.booking_codes?.onexbet
-     },
-     type: currentSlip?.type,
-     status: currentSlip?.status,
-   });
+  const [formData, setFormData] = useState({
+    slip_title: currentSlip?.slip_title,
+    booking_codes: {
+      sporty_bet: currentSlip?.booking_codes?.sporty_bet,
+      onexbet: currentSlip?.booking_codes?.onexbet,
+    },
+    type: currentSlip?.type,
+    status: currentSlip?.status,
+  });
 
+  const handleOnchange = (e: any) => {
+    const { name, value, type } = e.target;
+    if (type === "radio") {
+      // For radio inputs, update the formData directly
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else if (
+      name === "booking_codes.sporty_bet" ||
+      name === "booking_codes.onexbet"
+    ) {
+      // If it's a booking code, don't update the formData directly
+      setFormData((prev) => ({
+        ...prev,
+        booking_codes: {
+          ...prev.booking_codes,
+          [name.split(".").pop()]: value,
+        },
+      }));
+    } else {
+      // For other fields, update the formData directly
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+    console.log(formData);
+  };
 
-
-const handleOnchange = (e:any) => {
-  const { name, value, type } = e.target;
-  if (type === "radio") {
-    // For radio inputs, update the formData directly
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  } else if (
-    name === "booking_codes.sporty_bet" ||
-    name === "booking_codes.onexbet"
-  ) {
-    // If it's a booking code, don't update the formData directly
-    setFormData((prev) => ({
-      ...prev,
-      booking_codes: {
-        ...prev.booking_codes,
-        [name.split(".").pop()]: value,
-      },
-    }));
-  } else {
-    // For other fields, update the formData directly
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-  console.log(formData)
+  // handle odds
+  const [odds,setOdds] = useState([
+    {
+      league:"",
+      teams:"",
+      tips:"",
+      result:""
+    }
+  ])
+const handleOddschange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  index: number
+) => {
+  const { name, value } = e.target;
+  setOdds((prevOdds) => {
+    return prevOdds.map((odd, i) => {
+      if (i === index) {
+        return { ...odd, [name]: value };
+      }
+      return odd;
+    });
+  });
+  console.log(odds)
 };
-
-
-  // const handleOddsOnchange = (e: any) => {
-    
-  // };
 
   // adds a new record field
   const [records, setRecords] = useState<JSX.Element[]>([]);
@@ -113,20 +126,20 @@ const handleOnchange = (e:any) => {
           type="text"
           name="league"
           placeholder="league"
-          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         <input
           type="text"
           name="teams"
           placeholder="teams"
-          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         <input
           type="text"
           name="tips"
-          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 bg-red-800 shadow-sm"
+          className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
           onChange={handleOnchange}
         />
         {
@@ -168,7 +181,7 @@ const handleOnchange = (e:any) => {
   // submit all data
   const submitData = (e: any) => {
     e.preventDefault();
-    const { slip_title, type, status,booking_codes } = formData;
+    const { slip_title, type, status, booking_codes } = formData;
 
     const data = {
       slip_title,
@@ -185,7 +198,7 @@ const handleOnchange = (e:any) => {
       <div className=" px-4 py-8 mx-auto flex flex-col sm:flex-row w-full p-1 sm:p-4 gap-4 sm:gap-8 my-8">
         <div className="flex flex-col gap-2 p-2">
           <h2 className="text-lg font-semibold leading-7 text-gray-900">
-            Update Betslip
+            Create Betslip
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             Once you submit slip details you will be redirected to your
@@ -224,7 +237,7 @@ const handleOnchange = (e:any) => {
               </div>
             </label>
             {
-              records.map((_odd:any,index:any) => {
+              records.map((_odd: any, index: any) => {
                 return (
                   <>
                     <div className="w-full flex flex-wrap gap-2 items-center">
@@ -233,22 +246,22 @@ const handleOnchange = (e:any) => {
                         name="league"
                         placeholder="league"
                         className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
-                        onChange={handleOnchange}
+                        onChange={(e) => handleOddschange(e, index)}
                       />
                       <input
                         type="text"
                         name="teams"
                         placeholder="teams"
                         className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
-                        onChange={handleOnchange}
+                        onChange={(e) => handleOddschange(e, index)}
                       />
                       <input
                         type="text"
                         name="tips"
                         className="p-2 ring-1 ring-gray-900/5 bg-slate-50 shadow-sm"
-                        onChange={handleOnchange}
+                        onChange={(e) => handleOddschange(e, index)}
                       />
-                      {(
+                      {
                         <>
                           <DropdownMenu.Root>
                             <DropdownMenu.Trigger>
@@ -266,6 +279,9 @@ const handleOnchange = (e:any) => {
                                       type="radio"
                                       name="result"
                                       value={option.value}
+                                      onChange={(e) =>
+                                        handleOddschange(e, index)
+                                      }
                                     />
                                     <label
                                       htmlFor={option.id}
@@ -279,7 +295,7 @@ const handleOnchange = (e:any) => {
                             </DropdownMenu.Content>
                           </DropdownMenu.Root>
                         </>
-                      )}
+                      }
                     </div>
                   </>
                 );
@@ -393,4 +409,4 @@ const handleOnchange = (e:any) => {
   );
 };
 
-export default AdminEdit;
+export default AdminCreate;
